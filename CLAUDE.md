@@ -78,7 +78,13 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
   (`.hl-violet`, `.hl-amber`, ...). Dark mode is an indigo night sky (`#0c0a1c`, chosen 2026-10-15 from 8
   rendered variants): `--space` on `body` layers faint orbits (`public/css/orbits.svg`, top right; keep its
   satellite in the right margin), a violet and a teal nebula glow, and a static starfield, all fixed while
-  scrolling. The theme test in `tests/site.spec.js` checks both `--bg` values.
+  scrolling. Light mode has a fainter daylight version of the same backdrop (added 2026-10-15): the same
+  layers with `light-dark()` colors (navy dots for stars) and `public/css/orbits-light.svg` (`--orbits`).
+  The theme test in `tests/site.spec.js` checks both `--bg` values.
+- Satellites (2026-10-15): on the homepage, a small satellite orbits the round portrait (orbit numbers at
+  the top of `content/index.html`, moved by `site.js`, in front of the photo on the near half). The header
+  logo (`header.liquid`) is the favicon's Earth with a satellite circling it (SVG animation). Both stand
+  still with reduced motion.
 - Favicon: Earth, orbit and satellite (`public/favicon.svg`, with its own dark mode); the .ico and
   apple-touch-icon are exported from it with inkscape + ImageMagick.
 

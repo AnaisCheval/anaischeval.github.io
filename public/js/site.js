@@ -51,6 +51,14 @@ if (satellite) {
   }
 }
 
+// The header logo's satellite (an SVG animation) stands still with reduced motion, on the near side.
+if (reducedMotion) {
+  for (const logo of document.querySelectorAll("svg.logo")) {
+    logo.pauseAnimations();
+    logo.setCurrentTime(1);
+  }
+}
+
 // Light/dark theme button. Dark is the default, whatever the system setting. Choosing light is
 // stored and applied in <head> (base.liquid) before the page paints; going back to dark clears it.
 document.querySelector(".theme-toggle")?.addEventListener("click", () => {
