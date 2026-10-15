@@ -1,0 +1,123 @@
+---
+title: "Hybrid-Action Reinforcement Learning for Autonomous Strip Imaging"
+venue: "AIAA SciTech 2026 · AAS/AIAA Astrodynamics Specialist Conference 2025 · journal version under review"
+authors:
+    - name: "Anaïs Cheval"
+      url: "/"
+    - name: "Hanspeter Schaub"
+      url: "https://hanspeterschaub.info/"
+affiliations:
+    - name: "AVS Lab, Ann and H.J. Smead Department of Aerospace Engineering Sciences, University of Colorado Boulder"
+      url: "https://hanspeterschaub.info/AVSlab.html"
+date: 2026-01-12
+description: "A super-agile satellite decides on board which strip to image next and how long to transition before scanning it. HOP-PPO chains a discrete and a continuous actor on a transformer encoder and earns 54.9% more reward per orbit than a tuned heuristic."
+cover: cover.mp4
+bibkey: cheval2026hybrid
+links:
+    - name: Paper
+      icon: bi-file-earmark-pdf
+      url: "https://hanspeterschaub.info/Papers/Cheval2026.pdf"
+    - name: DOI
+      icon: bi-journal-text
+      url: "https://doi.org/10.2514/6.2026-0132"
+    - name: Talk
+      icon: bi-youtube
+      url: "https://youtu.be/h0CZHoRKfvA"
+    - name: BSK-RL
+      icon: bi-github
+      url: "https://github.com/AVSLab/bsk_rl"
+note: "Presented at AIAA SciTech 2026. The journal version, with the results below, is under review at the Journal of Aerospace Information Systems."
+---
+
+<figure><video src="overview.mp4" width="1280" height="738" poster="overview.poster.jpg" controls loop muted playsinline preload="none"></video><figcaption>A super-agile satellite scanning a strip from Boulder to Phoenix, simulated in Basilisk and rendered in Vizard.</figcaption></figure>
+
+<h2>Summary</h2>
+<p>
+  Earth-observing satellites usually receive their task plan from the ground: an optimizer computes it, and the satellite executes it open loop.
+  Every new request or change of conditions forces a new plan on the ground.
+  Reinforcement learning instead trains a policy offline in a high-fidelity simulator and runs it on board, where it maps the current observation to the next decision in milliseconds.
+  Previous RL schedulers handled the imaging of discrete points with simple multilayer perceptrons (MLPs).
+  This work extends RL to <strong>strip imaging</strong>, where a line camera scans a long strip of ground at a prescribed speed.
+</p>
+<p>
+  The scheduler must choose the next strip <em>and</em> the transition time before its acquisition starts: long enough for the attitude to settle and the strip to come into view, short enough not to waste the pass.
+  We propose <strong>HOP-PPO</strong>, an autoregressive hybrid-action PPO whose discrete actor picks the strip and whose continuous actor then picks its transition time, on top of a transformer encoder with one token per strip.
+  Over 100 missions of 24 hours, it earns <span class="hl-violet">54.9% more reward per orbit</span> than a tuned heuristic, and 28.3% more than the same policy with an MLP encoder, which has three times more parameters.
+</p>
+
+<h2>From point imaging to strip imaging</h2>
+<div class="cols">
+  <figure><video src="point_tracking.mp4" poster="point_tracking.poster.jpg" width="1280" height="720" data-autoplay controls loop muted playsinline preload="none"></video><figcaption><strong>Point imaging.</strong> The boresight tracks a static target; the rotation about the boresight stays free.</figcaption></figure>
+  <figure><video src="strip_tracking.mp4" poster="strip_tracking.poster.jpg" width="1280" height="720" data-autoplay controls loop muted playsinline preload="none"></video><figcaption><strong>Strip imaging.</strong> The scan line must also stay perpendicular to the strip, so the attitude is fully constrained. A transition phase precedes each acquisition.</figcaption></figure>
+</div>
+<p>
+  Each request is a strip with a start point, an end point, a priority and a required acquisition speed.
+  To simulate it in <a href="https://github.com/AVSLab/basilisk">Basilisk</a>, we developed a <code>stripLocation</code> module, which moves a target point along the strip at the acquisition speed, and a strip imaging mode of the <code>locationPointing</code> module, which keeps the boresight on that point and the scan line perpendicular to the scanning direction.
+  Two requirements must hold during the whole acquisition: the attitude error stays below a bound, and the satellite stays above a minimum elevation seen from the target point.
+  A <strong>transition phase</strong> before each acquisition absorbs both the wait for the strip to come into view and the transient of the attitude controller.
+</p>
+<figure><img src="concept_picture.jpg" alt="Three snapshots of a satellite imaging a strip over the Earth"><figcaption>Three snapshots of a strip imaging mission: the pointing vector (blue) tracks the moving target point while the scan line vector (green) stays perpendicular to the scanning direction.</figcaption></figure>
+
+<h2>Problem</h2>
+<div class="cols center" style="--cols: 7fr 5fr">
+  <figure><video src="strip_scenario.mp4" poster="strip_scenario.poster.jpg" width="1280" height="730" data-autoplay controls loop muted playsinline preload="none"></video><figcaption>Three consecutive strips in Basilisk. The bars show the transition (orange) and acquisition (green) phases of each strip.</figcaption></figure>
+  <div>
+    <p class="small">
+      The scheduling problem is a partially observable semi-Markov decision process: each decision lasts as long as the transition and the acquisition it starts.
+      The agent observes the next N strips, ordered by the closing time of their imaging windows: their priority, geometry, acquisition speed, the attitude error it would start with, and the opening and closing times of their next window.
+    </p>
+    <p class="small">
+      Its action is <strong>hybrid</strong>: one of the N strips (discrete) and a transition time between 0 and 120 s (continuous).
+      The reward is the priority of each strip imaged for the first time.
+      The environment is built with <a href="https://github.com/AVSLab/bsk_rl">BSK-RL</a>, our open-source package of Gymnasium environments for spacecraft tasking on top of Basilisk.
+    </p>
+  </div>
+</div>
+
+<h2>HOP-PPO</h2>
+<div class="cols center" style="--cols: 6fr 5fr">
+  <figure><img src="architecture_no_constraints.png" alt="Architecture of HOP-PPO: transformer encoder, discrete actor, continuous actor and critic"><figcaption>Transformer-based RL architecture with an autoregressive hybrid action distribution.</figcaption></figure>
+  <div>
+    <ul class="small">
+      <li><strong>Transformer encoder.</strong> Each strip is one token. Self-attention makes every token aware of the other strips competing for the same time.</li>
+      <li><strong>Discrete actor.</strong> One scoring head, shared by all tokens, gives each strip a score; a softmax over the scores picks the strip. The head does not depend on N, and every strip is judged by the same criteria wherever it is in the observation.</li>
+      <li><strong>Continuous actor.</strong> From the raw features of the chosen strip, it outputs the transition time as a squashed Gaussian.</li>
+      <li><strong>One objective.</strong> The two actors are chained autoregressively and trained with a shared critic and a single clipped PPO objective on their joint probability.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Results</h2>
+<div class="cols center" style="--cols: 6fr 5fr">
+  <figure><img src="cum_reward_boxplot.png" alt="Box plot of the reward per orbit of each policy, with the improvement over the heuristic"><figcaption>Reward per orbit over the 100 evaluation missions. Squares: means; bars: improvement of the mean over the tuned heuristic; italic numbers: trainable parameters.</figcaption></figure>
+  <div>
+    <p class="small">
+      Each policy is evaluated on 100 missions of 24 hours (15 orbits) in a 600 km, 45&deg; orbit, with 2,000 to 5,000 random strips of 100 to 500 km.
+      The heuristic picks, among the strips reachable after a fixed transition time, the one with the highest priority per second; the best fixed time, 80 s, is used.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Policy</th><th>Parameters</th><th>vs heuristic</th></tr></thead>
+        <tbody>
+          <tr class="ours"><td>HOP-PPO (transformer)</td><td>4.2 M</td><td>+54.9%</td></tr>
+          <tr><td>HOP-PPO, MLP encoder</td><td>12.1 M</td><td>+20.7%</td></tr>
+          <tr><td>Discrete PPO, best grid</td><td>9.6 M</td><td>+10.4%</td></tr>
+          <tr><td>Discrete PPO, finest grid</td><td>10.4 M</td><td>+6.0%</td></tr>
+          <tr><td>H-PPO</td><td>15.8 M</td><td>&minus;21%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">
+      The transformer gains 28.3% over the MLP encoder with three times fewer parameters.
+      Discretizing the transition time grows the action space and helps less, and the generic hybrid PPO, which is not autoregressive, does worse than the heuristic.
+      In the earlier conference version, HOP-PPO outperformed the heuristic by 36.3% and the discretized and generic hybrid methods by at least 25.9%.
+    </p>
+  </div>
+</div>
+
+<h2>Publications</h2>
+<ul class="small">
+  <li>A. Cheval and H. Schaub, &ldquo;Dual-Actor Transformer-Based Reinforcement Learning Architecture for Autonomous Earth Strip Imaging Scheduling,&rdquo; <em>Journal of Aerospace Information Systems</em>, under review.</li>
+  <li>A. Cheval and H. Schaub, &ldquo;Reinforcement Learning with Hybrid Action Representation for Autonomous Strip Imaging Task Scheduling in Super-Agile Satellites,&rdquo; <em>AIAA SciTech Forum</em>, Orlando, FL, 2026. <a href="https://doi.org/10.2514/6.2026-0132">DOI</a> · <a href="https://hanspeterschaub.info/Papers/Cheval2026.pdf">PDF</a> · <a href="https://youtu.be/h0CZHoRKfvA">talk</a></li>
+  <li>A. Cheval and H. Schaub, &ldquo;Autonomous Strip Imaging Task Scheduling in Super-Agile Satellites Using Reinforcement Learning,&rdquo; <em>AAS/AIAA Astrodynamics Specialist Conference</em>, Boston, MA, 2025. <a href="https://hanspeterschaub.info/Papers/Cheval2025b.pdf">PDF</a></li>
+</ul>
