@@ -1,5 +1,7 @@
 /* Site styles. Plain CSS, no framework.
-   Colors and fonts are tokens on :root; dark mode only redefines the tokens. */
+   Colors and fonts are tokens on :root; dark mode only redefines the tokens.
+   Theme: deep space. Navy ink, violet links, and the satellite colors of the research figures
+   (violet strip satellites, amber sweep satellite, teal contacts, blue Earth); faint stars in dark mode. */
 
 /* Self-hosted variable fonts (SIL OFL, see public/fonts/LICENSE-*.txt), latin subset. */
 @font-face {
@@ -17,32 +19,47 @@
   font-display: swap;
 }
 @font-face {
-  font-family: "Inter";
-  src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2");
-  font-weight: 100 900;
+  font-family: "Space Grotesk";
+  src: url("/fonts/space-grotesk-latin-wght-normal.woff2") format("woff2");
+  font-weight: 300 700;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
   --font-body: "Source Serif 4", Georgia, "Times New Roman", serif;
-  --font-head: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-head: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* light-dark(light value, dark value): the page follows the system setting,
      or the choice from the header button (data-theme on <html>). */
-  --bg: light-dark(#ffffff, #121212);
-  --fg: light-dark(#111111, #ececec);
-  --muted: light-dark(#5b5b5b, #a3a3a3);
-  --rule: light-dark(#e2e2e2, #2e2e2e);
-  --surface: light-dark(#f5f5f3, #1d1d1d);
-  --link: light-dark(#0a5bc4, #7cb7ff);
-  --accent: light-dark(#111111, #ececec);     /* card borders, buttons, selection */
-  --on-accent: light-dark(#ffffff, #121212);
-  --shadow: light-dark(#cfcfcf, #3d3d3d);     /* brutalist card offset shadow */
-  --amber: light-dark(#9a6b00, #e3b341);
-  --teal: light-dark(#0f766e, #4fd1c5);
+  --bg: light-dark(#ffffff, #0b1120);         /* dark: deep-space navy */
+  --fg: light-dark(#0f1a2e, #e6eaf2);
+  --muted: light-dark(#505b70, #9aa5bb);
+  --rule: light-dark(#e1e5ee, #243049);
+  --surface: light-dark(#f3f5f9, #141c2f);
+  --link: light-dark(#5a3fc0, #b9a8ff);       /* violet, as the strip satellites in the figures */
+  --accent: light-dark(#0f1a2e, #e6eaf2);     /* card borders, buttons, selection */
+  --on-accent: light-dark(#ffffff, #0b1120);
+  --shadow: light-dark(#d6d0ec, #2c3655);     /* brutalist card offset shadow, violet-tinted */
+  --violet: light-dark(#5a3fc0, #b9a8ff);
+  --amber: light-dark(#8a5a00, #f0b44c);      /* sweep satellite */
+  --teal: light-dark(#0f766e, #4fd1c5);       /* contact between satellites */
+  --blue: light-dark(#1d5fbf, #7cb7ff);       /* Earth */
   --red: light-dark(#b42318, #ff7b72);
+
+  /* Dark mode only: a faint, static starfield on the page background (see body below).
+     Three tiles of different sizes so the pattern does not visibly repeat. */
+  --stars:
+    radial-gradient(1px 1px at 37px 59px, rgb(255 255 255 / 0.55), transparent),
+    radial-gradient(1px 1px at 211px 143px, rgb(255 255 255 / 0.35), transparent),
+    radial-gradient(1.5px 1.5px at 389px 277px, rgb(255 255 255 / 0.5), transparent),
+    radial-gradient(1px 1px at 113px 331px, rgb(200 210 255 / 0.4), transparent),
+    radial-gradient(1px 1px at 467px 41px, rgb(255 236 200 / 0.4), transparent),
+    radial-gradient(1px 1px at 83px 197px, rgb(255 255 255 / 0.45), transparent),
+    radial-gradient(1px 1px at 311px 89px, rgb(255 255 255 / 0.3), transparent),
+    radial-gradient(1.5px 1.5px at 251px 401px, rgb(220 225 255 / 0.55), transparent);
+  --stars-size: 431px 383px, 557px 509px, 677px 613px, 523px 461px, 601px 571px, 347px 419px, 389px 307px, 739px 653px;
 
   --wide: 1120px;
   --gutter: 1rem;
@@ -78,6 +95,12 @@ body {
   font-kerning: normal;
   -webkit-font-smoothing: antialiased;
 }
+/* Stars only in dark mode (button choice or system setting). They are 1-1.5 px and faint, so
+   text stays readable on them; cards and panels keep a solid --bg/--surface fill. */
+:root[data-theme="dark"] body { background-image: var(--stars); background-size: var(--stars-size); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body { background-image: var(--stars); background-size: var(--stars-size); }
+}
 
 main { flex: 1; }
 
@@ -87,8 +110,8 @@ h1, h2, h3, h4 {
   text-wrap: balance;
   margin: 2em 0 0.5em;
 }
-h1 { font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; margin-top: 0; }
-h2 { font-size: clamp(1.35rem, 1.2rem + 0.6vw, 1.7rem); font-weight: 700; letter-spacing: -0.02em; }
+h1 { font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.6rem); font-weight: 700; letter-spacing: -0.01em; margin-top: 0; }
+h2 { font-size: clamp(1.35rem, 1.2rem + 0.6vw, 1.7rem); font-weight: 700; letter-spacing: -0.01em; }
 h3 { font-size: 1.15em; font-weight: 650; margin-top: 1.6em; }
 h4 { font-size: 1em; font-weight: 650; }
 
@@ -103,6 +126,8 @@ img, video, svg { max-width: 100%; }
 img, video { height: auto; display: block; }
 video { width: 100%; background: #000; border-radius: 4px; }
 picture { display: contents; }
+/* With display: contents, the <source> elements of a picture would otherwise become grid items. */
+picture > source { display: none; }
 
 code, pre { font-family: var(--font-mono); font-size: 0.875em; }
 :not(pre) > code { background: var(--surface); padding: 0.1em 0.3em; border-radius: 3px; }
@@ -408,6 +433,8 @@ figure > .cols { margin: 0; }
 @media (min-width: 760px) { .steps { grid-template-columns: repeat(3, 1fr); } }
 
 .hl-amber { color: var(--amber); font-weight: 600; }
+.hl-violet { color: var(--violet); font-weight: 600; }
+.hl-blue { color: var(--blue); font-weight: 600; }
 .hl-teal { color: var(--teal); font-weight: 600; }
 .hl-red { color: var(--red); font-weight: 600; }
 
