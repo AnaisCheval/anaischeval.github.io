@@ -160,6 +160,10 @@ The header of `publications.bib` lists all site-only fields (`pubtype`, `venue`,
 `@article` = journal, `@inproceedings` = conference, `@mastersthesis`/`@phdthesis` = thesis,
 `@misc` = preprint. Use `pubtype = {workshop}` for a workshop paper.
 
+**Thumbnail** (`image`): the cover poster of the project page, or, for a paper without a page, a square
+crop of one of its figures in `content/img/pubs/` (e.g. `image = {img/pubs/ludwig2026trusted.png}`).
+An entry without `image` shows a neutral square with an orbit mark, so the list stays aligned.
+
 Write names in UTF-8 (`Anaïs`, not `Ana{\"\i}s`): the name must match `author` in `_data/site.json`
 to show in bold. Keys use letters, digits and `_` only.
 

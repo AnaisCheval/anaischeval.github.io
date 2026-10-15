@@ -1,6 +1,8 @@
 <li class="pub" id="{{ pub.key }}">
   {%- if pub.image %}
   <div class="pub-thumb"><img src="/{{ pub.image }}" alt="" eleventy:widths="240,480" sizes="120px"></div>
+  {%- else %}
+  <div class="pub-thumb pub-thumb-none">{{ "orbit" | icon }}</div>
   {%- endif %}
   <div class="pub-body">
     <p class="pub-title"><span class="pub-label">{{ pub.label }}</span> {{ pub.title | escape }}</p>

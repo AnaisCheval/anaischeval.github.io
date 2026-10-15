@@ -4,7 +4,8 @@
 % Site-only fields (not in the copied BibTeX):
 %   pubtype   journal | conference | workshop | thesis | preprint | other (default from the entry type)
 %   venue     display name of the venue (default: journal / booktitle / school)
-%   image     thumbnail, path from content/ (e.g. research/<slug>/cover.poster.jpg)
+%   image     thumbnail, path from content/ (e.g. research/<slug>/cover.poster.jpg; for a paper
+%             without a project page, a square figure in img/pubs/). Without one, an orbit mark shows.
 %   pdf, website, code, video, dataset, poster, slides, thesis   links (a local path or a URL)
 %   award     short note shown after the venue, e.g. Best paper award
 %   abstract  shown in a collapsible block
@@ -76,7 +77,10 @@
   month     = jan,
   doi       = {10.2514/6.2026-0349},
   url       = {https://doi.org/10.2514/6.2026-0349},
-  venue   = {AIAA SciTech Forum, Orlando, FL}
+  venue   = {AIAA SciTech Forum, Orlando, FL},
+  pdf     = {https://stottlerhenke.com/wp-content/uploads/2026/01/2026_SciTech_Ludwig_Tuohy_LASSO.pdf},
+  image   = {img/pubs/ludwig2026trusted.png},
+  abstract = {Traditional satellite operations, which rely heavily on ground monitoring and command and control, face growing limitations. Onboard satellite autonomy offers a promising solution to these challenges. By enabling spacecraft to navigate, execute tasks, monitor health, and analyze data independently, autonomous systems can enhance mission effectiveness, improve resilience, and reduce operational costs. Recent progress has advanced individual capabilities such as autonomous planning, fault management, and decision-making. However, integrating these elements into a cohesive, adaptable framework for long-duration satellite operations remains an open challenge. This paper introduces preliminary work on the Lifetime Autonomy Software for Spacecraft Operations (LASSO) autonomy architecture, specifically designed to address this gap. The contribution of this paper is to present work from the initial development phase, outline future enhancements, and demonstrate LASSO's potential to impact satellite operations management.}
 }
 
 @inproceedings{cheval2025autonomous,
@@ -105,6 +109,7 @@
   venue   = {AAS Guidance, Navigation and Control Conference, Breckenridge, CO},
   pdf     = {https://hanspeterschaub.info/Papers/Stephenson2025.pdf},
   video   = {https://youtu.be/PD1P3oBOvQ4},
+  image   = {img/pubs/stephenson2025quantifying.jpg},
   abstract = {The objective of the multiagent agile Earth-observing satellite scheduling problem is to maximize the global sum of values of imaging requests imaged by a constellation. Prior work has shown that individually-trained satellites executing a deep reinforcement learning policy can best be induced to cooperate on an Earth-observing mission by sharing their intended tasks as they select them; these agents are operating on asynchronous variable-duration decision intervals. Additionally, methods for determining the global optimum for request allocation have been developed. In this work, these two developments will be combined to quantify how close to global optimality the distributed method can achieve. The methods are evaluated over variety of constellation configurations and request distributions, demonstrating that the intent sharing method is very effective at collaboratively, autonomously, and reactively scheduling observations for the constellations.}
 }
 
