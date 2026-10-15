@@ -1,0 +1,17 @@
+# Contact and profile links (homepage and footer).
+# `icon` is a file name in public/icons/ (without .svg).
+- name: Email
+  url: "mailto:A.MatosesGimenez@tudelft.nl"
+  icon: envelope
+- name: GitHub
+  url: https://github.com/AndreuMatoses
+  icon: github
+- name: LinkedIn
+  url: https://www.linkedin.com/in/andreu-matoses
+  icon: linkedin
+- name: Google Scholar
+  url: https://scholar.google.com/citations?user=mQvQ-DYAAAAJ&hl=en
+  icon: scholar
+# - name: ORCID
+#   url: https://orcid.org/0009-0000-2903-0834
+#   icon: orcid

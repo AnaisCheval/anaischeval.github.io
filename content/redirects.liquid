@@ -1,0 +1,40 @@
+---
+pagination:
+  data: redirects
+  size: 1
+  alias: r
+permalink: "{{ r.from | redirectPath }}"
+layout: false
+eleventyExcludeFromCollections: true
+---
+{%- assign target = nil %}
+{%- assign to_url = r.to %}
+{%- assign canonical = r.to %}
+{%- unless r.to contains "://" %}
+{%- assign target = collections.all | where: "url", r.to | first %}
+{%- assign canonical = r.to | absoluteUrl %}
+{%- endunless %}
+<!doctype html>
+<html lang="{{ site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <title>{{ target.data.title | default: "Moved" }}</title>
+  <link rel="canonical" href="{{ canonical }}">
+  <meta http-equiv="refresh" content="0; url={{ to_url }}">
+  <meta name="robots" content="noindex">
+  {%- if target %}
+  <meta property="og:title" content="{{ target.data.title }}">
+  <meta property="og:description" content="{{ target.data.description | strip_html | truncate: 300 }}">
+  <meta property="og:url" content="{{ canonical }}">
+  {%- if target.data.og_source %}
+  {%- assign og_url = target.data.og_source | ogImage %}
+  <meta property="og:image" content="{{ og_url }}">
+  <meta name="twitter:card" content="summary_large_image">
+  {%- endif %}
+  {%- endif %}
+  <script>location.replace({{ to_url | json }})</script>
+</head>
+<body>
+  <p>This page moved to <a href="{{ to_url }}">{{ to_url }}</a>.</p>
+</body>
+</html>

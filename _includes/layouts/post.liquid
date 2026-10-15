@@ -1,0 +1,17 @@
+---
+layout: layouts/base.liquid
+---
+<article class="flow">
+  <header class="post-header">
+    <h1>{{ title }}</h1>
+    <p class="meta"><time datetime="{{ page.date | isoDate }}">{{ page.date | date: "%B %-d, %Y" }}</time> · {{ author | default: site.author }}</p>
+  </header>
+  {%- assign contents = content | toc %}
+  {%- if show_toc != false and contents != "" %}
+  <details class="toc">
+    <summary>Contents</summary>
+    {{ contents }}
+  </details>
+  {%- endif %}
+  {{ content }}
+</article>

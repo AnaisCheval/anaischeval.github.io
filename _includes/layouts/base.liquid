@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="{{ site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
+  {% include "partials/seo.liquid" %}
+  {% include "partials/fonts.liquid" %}
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  {%- if collections.posts.length > 0 %}
+  <link rel="alternate" type="application/atom+xml" href="/feed.xml" title="{{ site.title }}">
+  {%- endif %}
+  {%- assign use_math = math %}
+  {%- if math == nil %}{% assign use_math = content | hasMath %}{% endif %}
+  {%- if use_math %}
+  <script>
+    window.MathJax = { tex: { inlineMath: [["$", "$"], ["\\(", "\\)"]] } };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+  {%- endif %}
+  <script defer src="/js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {% include "partials/header.liquid" %}
+  <main id="main">
+    {{ content }}
+  </main>
+  {% include "partials/footer.liquid" %}
+</body>
+</html>

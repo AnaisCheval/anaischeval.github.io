@@ -1,0 +1,14 @@
+{%- comment %}
+  {% include "partials/figure.liquid", src: "photo.jpg", alt: "What it shows", caption: "Optional", width: 600 %}
+  `src` is a file in the page folder (or a URL). `width` caps the size in px.
+{% endcomment -%}
+<figure{% if width and width != "100%" %} style="max-width: {{ width }}px"{% endif %}>
+  {%- if src contains ".mp4" %}
+  <video src="{{ src }}" poster="{{ src | replace: '.mp4', '.poster.jpg' }}" data-autoplay muted loop playsinline controls preload="none"{% if alt %} aria-label="{{ alt }}"{% endif %}></video>
+  {%- else %}
+  <img src="{{ src }}" alt="{{ alt }}">
+  {%- endif %}
+  {%- if caption %}
+  <figcaption>{{ caption }}</figcaption>
+  {%- endif %}
+</figure>

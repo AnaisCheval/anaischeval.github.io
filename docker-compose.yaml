@@ -1,0 +1,35 @@
+# docker compose up                  -> dev server with live reload on http://localhost:8080
+# docker compose run --rm test       -> build, then run the test suite (tests/)
+# docker compose run --rm renders    -> build, then save screenshots of every page to renders/
+x-node: &node
+  working_dir: /app
+  user: "${UID:-1000}:${GID:-1000}"
+  environment:
+    HOME: /tmp
+    npm_config_cache: /app/.cache/npm
+  volumes:
+    - .:/app
+
+services:
+  site:
+    <<: *node
+    image: node:22-bookworm-slim
+    ports:
+      - "8080:8080"
+    environment:
+      HOME: /tmp
+      npm_config_cache: /app/.cache/npm
+      SITE_OUTPUT: _dev        # keep _site/ for test builds
+    command: sh -c "npm install --no-audit --no-fund && npx @11ty/eleventy --serve --port=8080"
+
+  test:
+    <<: *node
+    image: mcr.microsoft.com/playwright:v1.63.0-noble
+    profiles: ["tools"]
+    command: sh -c "npm install --no-audit --no-fund && npx @11ty/eleventy --quiet && npx playwright test"
+
+  renders:
+    <<: *node
+    image: mcr.microsoft.com/playwright:v1.63.0-noble
+    profiles: ["tools"]
+    command: sh -c "npm install --no-audit --no-fund && npx @11ty/eleventy --quiet && npm run renders"

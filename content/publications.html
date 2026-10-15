@@ -1,0 +1,17 @@
+---
+title: Publications
+permalink: /publications/
+description: Journal, conference and workshop publications by Andreu Matoses Gimenez, with abstracts, PDFs and BibTeX.
+---
+<p>For a complete list, see <a href="https://scholar.google.com/citations?user=mQvQ-DYAAAAJ&amp;hl=en">Google Scholar</a>.</p>
+{%- assign groups = publications | publicationList %}
+{%- for group in groups %}
+<section class="pub-year wide" aria-labelledby="y{{ group.year }}">
+  <h2 id="y{{ group.year }}">{{ group.year }}</h2>
+  <ol class="pubs">
+    {%- for pub in group.items %}
+    {% include "partials/publication.liquid", pub: pub %}
+    {%- endfor %}
+  </ol>
+</section>
+{%- endfor %}

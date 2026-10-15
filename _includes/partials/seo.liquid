@@ -1,0 +1,98 @@
+{%- liquid
+  assign is_home = false
+  if page.url == "/"
+    assign is_home = true
+  endif
+  assign full_title = site.title
+  if title and is_home == false
+    assign full_title = title | append: " | " | append: site.title
+  endif
+  assign desc = description | default: site.description | strip_html | strip_newlines | truncate: 300
+  assign canonical = page.url | absoluteUrl
+  assign pub = nil
+  if bibkey
+    assign pub = publications | findPublication: bibkey
+  endif
+-%}
+<title>{{ full_title }}</title>
+<meta name="description" content="{{ desc }}">
+<meta name="author" content="{{ site.author }}">
+<link rel="canonical" href="{{ canonical }}">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="{{ title | default: site.title }}">
+<meta property="og:description" content="{{ desc }}">
+<meta property="og:url" content="{{ canonical }}">
+{%- if og_source %}
+{%- assign og_url = og_source | ogImage %}
+<meta property="og:type" content="article">
+<meta property="og:image" content="{{ og_url }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ title }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ og_url }}">
+{%- else %}
+{%- assign og_url = site.image | ogImage: "square" %}
+<meta property="og:type" content="{% if is_home %}profile{% else %}website{% endif %}">
+<meta property="og:image" content="{{ og_url }}">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="600">
+<meta property="og:image:alt" content="{{ site.author }}">
+<meta name="twitter:card" content="summary">
+{%- endif %}
+<meta name="twitter:title" content="{{ title | default: site.title }}">
+<meta name="twitter:description" content="{{ desc }}">
+{%- if pub %}
+<meta name="citation_title" content="{{ pub.title }}">
+{%- for a in pub.authors %}
+<meta name="citation_author" content="{{ a }}">
+{%- endfor %}
+<meta name="citation_publication_date" content="{{ pub.date | slice: 0, 7 | replace: '-', '/' }}">
+{%- if pub.kind == "journal" %}
+<meta name="citation_journal_title" content="{{ pub.fields.journal }}">
+{%- elsif pub.fields.booktitle %}
+<meta name="citation_conference_title" content="{{ pub.fields.booktitle }}">
+{%- elsif pub.kind == "thesis" %}
+<meta name="citation_dissertation_institution" content="{{ pub.fields.school }}">
+{%- endif %}
+{%- for link in pub.links %}{% if link.label == "pdf" %}
+<meta name="citation_pdf_url" content="{{ link.url | absoluteUrl }}">
+{%- endif %}{% endfor %}
+<meta name="citation_abstract_html_url" content="{{ canonical }}">
+{%- endif %}
+<script type="application/ld+json">
+{%- if is_home %}
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": {{ site.author | json }},
+  "url": {{ site.url | append: "/" | json }},
+  "image": {{ og_url | json }},
+  "email": {{ site.email | prepend: "mailto:" | json }},
+  "jobTitle": "PhD candidate",
+  "affiliation": { "@type": "CollegeOrUniversity", "name": {{ site.affiliation.name | json }}, "url": {{ site.affiliation.url | json }} },
+  {%- assign sep = "" %}
+  "sameAs": [{% for s in socials %}{% unless s.url contains "mailto:" %}{{ sep }}{{ s.url | json }}{% assign sep = ", " %}{% endunless %}{% endfor %}]
+}
+{%- elsif og_source %}
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": {{ title | json }},
+  "description": {{ desc | json }},
+  "url": {{ canonical | json }},
+  "image": {{ og_url | json }},
+  "datePublished": {{ page.date | isoDate | json }},
+  "author": [{% for a in authors %}{ "@type": "Person", "name": {{ a.name | json }} }{% unless forloop.last %}, {% endunless %}{% endfor %}]
+}
+{%- else %}
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": {{ title | default: site.title | json }},
+  "url": {{ canonical | json }},
+  "author": { "@type": "Person", "name": {{ site.author | json }}, "url": {{ site.url | append: "/" | json }} }
+}
+{%- endif %}
+</script>

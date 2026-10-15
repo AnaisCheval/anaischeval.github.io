@@ -1,0 +1,7 @@
+# Top navigation. `link` is a site path.
+- name: Publications
+  link: /publications/
+- name: Teaching
+  link: /teaching/
+# - name: Posts
+#   link: /posts/

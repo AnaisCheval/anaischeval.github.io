@@ -1,0 +1,40 @@
+---
+layout: layouts/base.liquid
+description: Andreu Matoses Gimenez, PhD candidate in planning for robotics at TU Delft. Generative models and physics simulation for task and motion planning.
+---
+<div class="home flow">
+  <section class="intro">
+    <div class="intro-head">
+      <h1>Andreu Matoses Gimenez</h1>
+      <img class="portrait" src="/img/profile.jpg" alt="Portrait of {{ site.author }}" loading="eager" fetchpriority="high" eleventy:widths="240,480" sizes="(min-width: 760px) 220px, 84px">
+    </div>
+    <div class="intro-text">
+      <p>
+        I am a PhD candidate in planning for robotics at the Department of Cognitive Robotics (CoR), TU Delft (Netherlands).
+        My research currently focuses on using generative models and physics simulation for task and motion planning problems.
+        I am supervised by Professor <a href="https://www.autonomousrobots.nl/">Javier Alonso-Mora</a> and Professor <a href="https://www.tudelft.nl/en/staff/c.pek/">Christian Pek</a>.
+      </p>
+      <p>
+        Before my PhD, I obtained my bachelor's degree in aerospace engineering from Universitat Politècnica de València (Spain),
+        and a master's degree from KTH Royal Institute of Technology (Sweden). During my MSc, I worked as a research engineer at KTH.
+      </p>
+      <div class="contact"><a href="mailto:{{ site.email }}">{{ site.email }}</a>{% include "partials/socials.liquid" %}</div>
+    </div>
+  </section>
+
+  <section class="news" aria-labelledby="news">
+    <h2 id="news" class="visually-hidden">News</h2>
+    <ul>
+      {%- for item in news %}
+      <li><strong>{{ item.date }}</strong> {{ item.text }}</li>
+      {%- endfor %}
+    </ul>
+  </section>
+
+  <section class="research wide" aria-labelledby="research">
+    <h2 id="research">Research</h2>
+    {%- for project in collections.research %}
+    {% include "partials/project-card.liquid", project: project %}
+    {%- endfor %}
+  </section>
+</div>

@@ -1,0 +1,5 @@
+<ul class="socials">
+  {%- for s in socials %}
+  <li><a href="{{ s.url }}" aria-label="{{ s.name }}" title="{{ s.name }}"{% unless s.url contains "mailto:" %} rel="me"{% endunless %}>{{ s.icon | icon }}</a></li>
+  {%- endfor %}
+</ul>

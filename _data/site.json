@@ -1,0 +1,12 @@
+{
+  "title": "Andreu Matoses Gimenez",
+  "short_title": "Andreu",
+  "url": "https://andreumatoses.github.io",
+  "author": "Andreu Matoses Gimenez",
+  "description": "PhD candidate in planning for robotics at TU Delft. Generative models and physics simulation for task and motion planning.",
+  "email": "A.MatosesGimenez@tudelft.nl",
+  "affiliation": { "name": "Delft University of Technology", "url": "https://www.tudelft.nl/en" },
+  "image": "img/profile.jpg",
+  "repo": "https://github.com/AndreuMatoses/andreumatoses.github.io",
+  "lang": "en"
+}

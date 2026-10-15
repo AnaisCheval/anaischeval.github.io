@@ -1,0 +1,25 @@
+{%- assign d = project.data %}
+{%- assign href = d.external_url | default: project.url %}
+<article class="card">
+  <div class="card-media">
+    {%- if d.cover contains ".mp4" %}
+    <video src="/{{ d.slug }}/{{ d.cover }}" poster="/{{ d.slug }}/cover.poster.jpg" data-autoplay muted loop playsinline preload="none" aria-hidden="true"></video>
+    {%- else %}
+    <img src="/research/{{ d.slug }}/{{ d.cover }}" alt="" eleventy:widths="400,800" sizes="(min-width: 760px) 280px, 100vw">
+    {%- endif %}
+  </div>
+  <div class="card-body">
+    <h3><a class="card-link" href="{{ href }}">{{ d.title }}</a></h3>
+    <p class="meta">{% for a in d.authors %}{{ a.name }}{% unless forloop.last %}, {% endunless %}{% endfor %} · <time datetime="{{ project.date | isoDate }}">{{ project.date | date: "%B %Y" }}</time></p>
+    {%- if d.venue %}
+    <p class="venue">{{ d.venue }}</p>
+    {%- endif %}
+    <p class="description">{{ d.description }}</p>
+    <p class="links">
+      <a href="{{ href }}">{% if d.external_url %}website{% else %}project page{% endif %}</a>
+      {%- for link in d.links %}{% if link.url %}
+      <a href="{{ link.url | projectLink: d.slug }}">{{ link.name | downcase }}</a>
+      {%- endif %}{% endfor %}
+    </p>
+  </div>
+</article>

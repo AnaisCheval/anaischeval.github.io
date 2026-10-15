@@ -1,0 +1,3 @@
+# Homepage news, newest first (at most 3). `text` may contain HTML links; quote it if it contains ": ".
+- date: November 2026
+  text: Starting in November, I will be a visiting researcher at Princeton University in the group of Prof. <a href="https://tomsilver.github.io/">Tom Silver</a>.

@@ -1,0 +1,12 @@
+# Old URLs that must keep working. Each `from` gets a small page that forwards to `to`.
+# `to` is a site path or a full URL. A `from` without a trailing slash becomes <from>.html,
+# which GitHub Pages also serves without the extension.
+- { from: /research/hybrid-flow-planning, to: /hybrid-flow-planning/ }
+- { from: /research/flow-skill-wm, to: /flow-skill-wm/ }
+- { from: /research/parallel-realization, to: /parallel-realization/ }
+- { from: /research/canopies-kth, to: /canopies-kth/ }
+- { from: /research/msc-thesis-marl, to: /msc-thesis-marl/ }
+- { from: /research/alpha-uav, to: /alpha-uav/ }
+- { from: /research/aerial-manipulation-marl, to: "https://autonomousrobots.nl/paper_websites/aerial-manipulation-marl" }
+- { from: /paper_websites/sadcher_MRTA/, to: "https://autonomousrobots.nl/paper_websites/sadcher_MRTA" }
+- { from: /readme/, to: "https://github.com/AndreuMatoses/andreumatoses.github.io#readme" }

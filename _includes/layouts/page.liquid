@@ -1,0 +1,10 @@
+---
+layout: layouts/base.liquid
+---
+<article class="flow">
+  <h1>{{ title }}</h1>
+  {%- if subtitle %}
+  <p class="lead">{{ subtitle }}</p>
+  {%- endif %}
+  {{ content }}
+</article>

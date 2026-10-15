@@ -1,0 +1,18 @@
+{%- comment %}
+  {% include "partials/gallery.liquid", items: gallery, columns: 2, caption: "Optional" %}
+  `items` is a list of files in the page folder (images or .mp4), e.g. from front matter.
+{% endcomment -%}
+<figure class="wide">
+  <div class="grid" style="--cols: {{ columns | default: 2 }}">
+    {%- for item in items %}
+    {%- if item contains ".mp4" %}
+    <video src="{{ item }}" poster="{{ item | replace: '.mp4', '.poster.jpg' }}" data-autoplay muted loop playsinline controls preload="none"></video>
+    {%- else %}
+    <img src="{{ item }}" alt="{{ caption | default: 'Gallery image' }} ({{ forloop.index }})">
+    {%- endif %}
+    {%- endfor %}
+  </div>
+  {%- if caption %}
+  <figcaption>{{ caption }}</figcaption>
+  {%- endif %}
+</figure>

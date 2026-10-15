@@ -1,0 +1,40 @@
+---
+layout: layouts/base.liquid
+---
+<article class="flow">
+  <header class="paper-header">
+    <h1>{{ title }}</h1>
+    <p class="authors">
+      {%- for a in authors %}
+      <span>{% if a.url %}<a href="{{ a.url }}">{{ a.name }}</a>{% else %}{{ a.name }}{% endif %}{% if a.superscript %}<sup>{{ a.superscript }}</sup>{% endif %}</span>
+      {%- endfor %}
+    </p>
+    {%- if affiliations %}
+    <p class="affiliations">
+      {%- for a in affiliations %}
+      <span>{% if a.superscript %}<sup>{{ a.superscript }}</sup>{% endif %}{% if a.url %}<a href="{{ a.url }}">{{ a.name }}</a>{% else %}{{ a.name }}{% endif %}</span>
+      {%- endfor %}
+    </p>
+    {%- endif %}
+    {%- if links %}
+    <p class="buttons">
+      {%- for link in links %}
+      {%- if link.url %}
+      <a class="button" href="{{ link.url | projectLink: slug }}">{{ link.icon | icon }}{{ link.name }}</a>
+      {%- else %}
+      <span class="button" aria-disabled="true">{{ link.icon | icon }}{{ link.name }}</span>
+      {%- endif %}
+      {%- endfor %}
+    </p>
+    {%- endif %}
+    {%- if note %}
+    <p class="note">{{ note }}</p>
+    {%- endif %}
+  </header>
+  {{ content }}
+  {%- if bibkey %}
+  <h2 id="citation">Citation</h2>
+  {%- assign pub = publications | findPublication: bibkey %}
+  {% include "partials/bibtex.liquid", pub: pub, open: true %}
+  {%- endif %}
+</article>
