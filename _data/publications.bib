@@ -1,4 +1,4 @@
-% All publications. Paste the BibTeX from Scholar/IEEE/arXiv and add the site-only fields below.
+% All publications. Paste the BibTeX from Scholar/AIAA/AAS and add the site-only fields below.
 % The publications page lists entries newest first, grouped by year.
 %
 % Site-only fields (not in the copied BibTeX):
@@ -10,139 +10,115 @@
 %   abstract  shown in a collapsible block
 %   hidden    true = not listed on the publications page (a research page can still cite it)
 % Standard fields that also make links: url (shown as "paper"), eprint + archiveprefix = {arXiv}.
+%
+% Status of a paper (see README.md):
+%   submitted / under review   @unpublished (label P), status in `venue`, e.g. "... (under review)"
+%   accepted                   @inproceedings or @article, venue ends with "(accepted)"
+%   published                  add doi + url (+ pdf), drop "(accepted)"
+% Write names in UTF-8 (Anaïs), not LaTeX accents. Keys: letters, digits and _ only.
 
-@misc{matoses2026flowskillwm,
-  title         = {Flow Policies as Actions of Skill-Level World Models: Learned and Symbolic Abstractions for Long-Horizon Planning},
-  author        = {Matoses Gimenez, Andreu and Papuc, Andrei-Carlo and Pek, Chris and Alonso-Mora, Javier},
-  year          = {2026},
-  month         = oct,
-  eprint        = {2610.04767},
-  archiveprefix = {arXiv},
-  primaryclass  = {cs.RO},
-  url           = {https://arxiv.org/abs/2610.04767},
-  venue   = {arXiv preprint, submitted to ICRA 2027},
-  pdf     = {https://arxiv.org/pdf/2610.04767},
-  website = {/flow-skill-wm/},
-  poster  = {/flow-skill-wm/conference_poster.jpg},
-  image   = {research/flow-skill-wm/cover.poster.jpg},
-  abstract = {Latent world models enable robots to plan by predicting the consequences of actions. Planning long tasks with control-rate actions requires many prediction steps, which enlarges the search space and accumulates error. Skill-level actions shorten these sequences, but a symbolic skill vocabulary requires domain knowledge and labeled demonstrations. We construct skill-level actions from the inputs of a flow-matching policy trained on demonstrations segmented into complete skills. The policy maps a noise seed and an observation, optionally with a code or label, to a complete skill execution, so one execution is one world-model transition. On this mechanism we propose four action abstractions with increasing task knowledge: a compressed seed, two discrete codes learned from the demonstrations, and a symbolic label. We evaluate them with a common world-model training procedure and planning framework on simulated block rearrangement tasks that require up to 14 sequential skills. The symbolic label succeeds in over 90% of the tasks that require up to six skills and degrades beyond. Without any label, an object-centric learned code matches it on single-skill tasks and retains half to three quarters of its success on tasks of two to five skills. Ablations attribute much of the label's advantage to its planner knowing which actions are applicable, rather than to the label itself. Beyond six skills the search, not the world model, limits success. Project page: https://andreumatoses.github.io/research/flow-skill-wm}
+@inproceedings{cheval2027safety,
+  title     = {Safety-Aware Reinforcement Learning for Strip Imaging Task Scheduling Using Conditional Transformers and Shielding},
+  author    = {Cheval, Anaïs and Schaub, Hanspeter},
+  booktitle = {AIAA SCITECH 2027 Forum},
+  address   = {Orlando, FL},
+  year      = {2027},
+  month     = jan,
+  venue   = {AIAA SciTech Forum, Orlando, FL (accepted)},
+  website = {/safe-strip-imaging/},
+  image   = {research/safe-strip-imaging/cover.png}
 }
 
-@misc{redondo2026hybridflow,
-  title         = {Learning Task and Motion Plans from Real Demonstrations with Hybrid Flow Matching},
-  author        = {Redondo Garcia, Zuleika and Matoses Gimenez, Andreu and Alonso-Mora, Javier},
-  year          = {2026},
-  month         = oct,
-  eprint        = {2610.04771},
-  archiveprefix = {arXiv},
-  primaryclass  = {cs.RO},
-  url           = {https://arxiv.org/abs/2610.04771},
-  venue   = {arXiv preprint, submitted to ICRA 2027},
-  pdf     = {https://arxiv.org/pdf/2610.04771},
-  website = {/hybrid-flow-planning/},
-  image   = {research/hybrid-flow-planning/cover.poster.jpg},
-  abstract = {Long-horizon mobile manipulation requires a task plan and the motion that executes it. Generative planners trained on demonstration produce both in one pass, requiring neither a symbolic domain nor search. To date, however, they have relied on thousands of scripted demonstrations of fixed-base arms and executed open loop. This paper presents a hybrid flow matching planner: a single network generates the symbolic plan with masked discrete flow matching and the motion trajectory with continuous flow matching. Unlike prior generative planners, we aim to learn from a much smaller set of demonstrations and to execute the plan in closed loop. Two properties of the data compensate for the small dataset. A demonstration resumed from any of its intermediate actions is itself a demonstration, which multiplies the training samples and enables replanning after every action. Objects of the same kind are interchangeable, which turns demonstrations of one goal into demonstrations of every permuted goal. Our base implementation produces valid plans on 68% of held-out scenes; a training and generation scheme for the discrete plan raises this to 76%, and replanning after every action raises the task completion rate from 40% to 53% in a kinematic simulation. The planner matches the task completion rate of motion-only flow matching policies while additionally providing the symbolic plan, and it outperforms previous hybrid diffusion formulations on both task completion and plan validity. We validate the planner on a real mobile manipulator. Videos and project page: https://andreumatoses.github.io/research/hybrid-flow-planning}
-}
-
-@article{matoses2026crossentropy,
-  title         = {Cross-Entropy Optimization of Physically Grounded Task and Motion Plans},
-  author        = {Matoses Gimenez, Andreu and Wilde, Nils and Pek, Chris and Alonso-Mora, Javier},
-  journal       = {IEEE Robotics and Automation Letters},
-  year          = {2026},
-  month         = mar,
-  url           = {https://ieeexplore.ieee.org/document/11486591},
-  code     = {https://github.com/AndreuMatoses/tamp_ce_mjwarp},
-  eprint        = {2512.11571},
-  archiveprefix = {arXiv},
-  venue    = {IEEE Robotics and Automation Letters (RA-L), presented at IROS 2026},
-  pdf      = {/parallel-realization/Parallel_realization_RAL_final_arxiv_version.pdf},
-  poster   = {/parallel-realization/conference_poster.jpg},
-  website  = {/parallel-realization/},
-  image    = {research/parallel-realization/teaser_all.jpg},
-  abstract = {Autonomously performing tasks often requires robots to plan high-level discrete actions and continuous low-level motions to realize them. Task and Motion Planning (TAMP) algorithms solve these hybrid problems together. Previous TAMP algorithms have focused mainly on computational performance, completeness, or optimality by making the problem tractable through simplifications and abstractions. However, this comes at the cost that the resulting plans may not adequately account for the dynamics or complex contacts necessary to reliably perform the task when manipulation of objects is required. Additionally, approaches that ignore effects of the low-level controllers may not obtain optimal or feasible plan realizations for the real system. We investigate the use of a GPU-parallelized physics simulator to compute realizations of plans with a motion controller, explicitly accounting for dynamics, and considering contacts with the environment. Using cross-entropy optimization, we sample the parameters of the controllers, or actions, to obtain low-cost solutions. Since our approach uses the same controllers as the real system, the robot can directly execute the computed plans. We demonstrate our approach for a set of tasks where the robot is able to exploit the environment's geometry to move an object.}
-}
-
-@inproceedings{bichler2025sadcher,
-  title         = {{SADCHER}: Scheduling using Attention-based Dynamic Coalitions of Heterogeneous Robots in Real-Time},
-  author        = {Bichler, Jakob and Matoses Gimenez, Andreu and Alonso-Mora, Javier},
-  booktitle     = {IEEE International Symposium on Multi-Robot and Multi-Agent Systems (MRS)},
-  year          = {2025},
-  month         = oct,
-  eprint        = {2510.14851},
-  archiveprefix = {arXiv},
-  venue    = {IEEE Int. Symposium on Multi-Robot & Multi-Agent Systems (MRS)},
-  code     = {https://github.com/jakbichler},
-  thesis   = {https://resolver.tudelft.nl/uuid:d90491cd-cf57-4d29-b38d-88df646ab301},
-  website  = {https://autonomousrobots.nl/paper_websites/sadcher_MRTA/},
-  image    = {research/sadcher/opening_image1x1.png},
-  abstract = {Multi-robot task allocation in heterogeneous systems requires efficient scheduling methods that can handle dynamic environments and diverse robot capabilities. This paper presents SADCHER, a novel attention-based approach for scheduling dynamic coalitions of heterogeneous robots in real-time. Our method leverages deep reinforcement learning and attention mechanisms to enable scalable and adaptive task assignment across robot teams with varying capabilities. The approach is validated through extensive simulations and demonstrates significant improvements in task completion rates and system efficiency compared to baseline methods.}
-}
-
-@inproceedings{zeng2025aerialmarl,
-  title         = {Decentralized Aerial Manipulation of a Cable-Suspended Load Using Multi-Agent Reinforcement Learning},
-  author        = {Zeng, Jack and Matoses Gimenez, Andreu and Vinitsky, Eugene and Alonso-Mora, Javier and Sun, Sihao},
-  booktitle     = {Conference on Robot Learning (CoRL)},
-  year          = {2025},
-  month         = aug,
-  url           = {https://proceedings.mlr.press/v305/zeng25a.html},
-  eprint        = {2508.01522},
-  archiveprefix = {arXiv},
-  website  = {https://autonomousrobots.nl/paper_websites/aerial-manipulation-marl},
-  code     = {https://github.com/Aerial-Manipulation-Lab/MARL_mav_ext},
-  video    = {https://youtu.be/NLYVruRREyI},
-  image    = {research/aerial-manipulation-marl/drones_teaser.jpg},
-  abstract = {This paper presents the first decentralized method to enable real-world 6-DoF manipulation of a cable-suspended load using a team of Micro-Aerial Vehicles (MAVs). Our method leverages multi-agent reinforcement learning (MARL) to train an outer-loop control policy for each MAV. Unlike state-of-the-art controllers that utilize a centralized scheme, our policy does not require global states, inter-MAV communications, nor neighboring MAV information. Instead, agents communicate implicitly through load pose observations alone, which enables high scalability and flexibility. It also significantly reduces computing costs during inference time, enabling onboard deployment of the policy. In addition, we introduce a new action space design for the MAVs using linear acceleration and body rates. This choice, combined with a robust low-level controller, enables reliable sim-to-real transfer despite significant uncertainties caused by cable tension during dynamic 3D motion. We validate our method in various real-world experiments, including full-pose control under load model uncertainties, showing setpoint tracking performance comparable to the state-of-the-art centralized method. We also demonstrate cooperation amongst agents with heterogeneous control policies, and robustness to the complete in-flight loss of one MAV.}
-}
-
-@inproceedings{deka2024canopies,
-  title     = {Enhancing Precision Agriculture through Human-In-The-Loop Planning and Control},
-  author    = {Deka, Shankar and Phodapol, Sujet and Matoses Gimenez, Andreu and Fernandez-Ayala, Victor Nan and Wong, Rufus C. Y. and Yu, Pian and Tan, Xiao and Dimarogonas, Dimos V.},
-  booktitle = {IEEE 20th International Conference on Automation Science and Engineering (CASE)},
-  year      = {2024},
-  month     = aug,
-  url       = {https://ieeexplore.ieee.org/abstract/document/10711319},
-  website  = {/canopies-kth/},
-  code     = {https://github.com/KTH-DHSG/ltl_automaton_core},
-  image    = {research/canopies-kth/cover.poster.jpg},
-  abstract = {In this paper, we introduce a ROS based framework designed for the planning and control of robotic systems within the context of precision agriculture, with an emphasis on human-in-the-loop capabilities. Utilizing Linear Temporal Logic to articulate complex task specifications, our algorithm creates high-level robotic plans that are not only correct by design but also adaptable in real time by human operators. This dual-focus approach ensures that while humans have the flexibility to modify the high-level plan on-the-fly or even take over low-level control of the robots, the system inherently safeguards against any human actions that could potentially breach the predefined task specifications. We demonstrate our algorithm within the dynamic and challenging environment of a real vineyard, where the collaboration between human workers and robots is critical for tasks such as harvesting and pruning, and show the practical applicability and robustness of our software. This work marks a pioneering application of formal methods to complex, real-world agricultural environments.}
-}
-
-@inproceedings{matoses2024rssworkshop,
-  title     = {Physically Grounded Optimal Realizations of Symbolic Plans},
-  author    = {Matoses Gimenez, Andreu and Wilde, Nils and Pek, Chris and Alonso-Mora, Javier},
-  booktitle = {Robotics: Science and Systems (RSS), Workshop on Frontiers of Optimization for Robotics},
-  year      = {2024},
-  month     = jul,
-  pubtype  = {workshop},
-  image    = {research/parallel-realization/dingo_isaac.png},
-  abstract = {Robot autonomy often involves planning high-level discrete decisions and continuous motion planning to realize each decision. Task and Motion Planning (TAMP) algorithms solve these hybrid problems jointly while considering constraints between the discrete symbolic actions, i.e., the task plan, and their continuous geometric realization. Previous TAMP algorithms have mostly focused on computational performance, completeness, or optimality. However, due to the required simplifications and abstractions, the resulting plans often do not account for robot dynamics, nor complex contacts. They also often ignore the effect of the low-level controllers on the optimality and/or feasibility of the plan's realizations. This work investigates the use of a parallelized physics simulator to compute realizations of the plan with a motion controller, realistic dynamics, and considering contacts with the environment. Using cross-entropy optimization, we sample the parameters used by the controllers, or actions, to obtain low-cost solutions. The resulting realized plan is straightforward to implement in the real system, as the robot uses the same controllers. We test our approach for a pick and place task, where our method is capable of finding low-cost feasible solutions in 1-2 min.}
-}
-
-@inproceedings{fernandezayala2022alpha,
-  title     = {Design of a {HALE} {UAV} for Atmospheric Imaging},
-  author    = {Nan Fernandez-Ayala, Victor and Vimláti, László and Matoses Gimenez, Andreu and Delmotte, Helena and Ivchenko, Mykola and Mariani, Raffaello},
-  booktitle = {33rd Congress of the International Council of the Aeronautical Sciences (ICAS)},
-  address   = {Stockholm},
-  year      = {2022},
-  month     = sep,
-  url       = {https://www.icas.org/ICAS_ARCHIVE/ICAS2022/data/papers/ICAS2022_0447_paper.pdf},
-  venue    = {International Council of the Aeronautical Sciences (ICAS)},
-  pdf      = {/alpha-uav/ICAS2022_0447_paper.pdf},
-  website  = {/alpha-uav/},
-  image    = {research/alpha-uav/manufacturing_full_scale.png},
-  abstract = {Optical phenomena in the upper atmosphere, such as northern lights, airglow, noctilucent clouds and thunderstorm-related transient luminous phenomena reveal the complex processes coupling different layers of the atmosphere and the near earth space. Bad weather and lighting conditions, as well as geographical constraints, limit the possibilities of ground based imaging. Therefore, an autonomous high altitude long endurance (HALE) fixed-wing unmanned aerial vehicle (UAV) is proposed for atmospheric imaging, as a joint student-driven research project between the Aeronautics and Vehicle Engineering- and the Space and Plasma Physics departments at KTH Royal Institute of Technology. The Autonomous Light Platform for High Altitude atmospheric imaging (ALPHA) is specifically designed for operations in the environmentally harsh conditions found in Arctic night time.}
-}
-
-@mastersthesis{matoses2023msc,
-  title  = {Scalable Reinforcement Learning for Formation Control with Collision Avoidance},
-  author = {Matoses Gimenez, Andreu},
-  school = {KTH Royal Institute of Technology},
-  year   = {2023},
+@unpublished{cheval2027sweep,
+  title  = {Vision-Transformer-Based Reinforcement Learning for Satellite Sweep Imaging over Continuous Priority Maps under Clouds},
+  author = {Cheval, Anaïs and Schaub, Hanspeter},
+  note   = {Submitted to the AAS Guidance, Navigation and Control Conference},
+  year   = {2027},
   month  = feb,
-  url    = {https://kth.diva-portal.org/smash/get/diva2:1750943/FULLTEXT01.pdf},
-  venue    = {Master's thesis, KTH Royal Institute of Technology},
-  website  = {/msc-thesis-marl/},
-  code     = {https://github.com/AndreuMatoses/scalable-collision-avoidance-RL},
-  image    = {research/msc-thesis-marl/cover.poster.jpg},
-  abstract = {In the last decades, significant theoretical advances have been made on the field of distributed mulit-agent control theory. One of the most common systems that can be modelled as multi-agent systems are the so called formation control problems, in which a network of mobile agents is controlled to move towards a desired final formation. These problems additionally pose practical challenges, namely limited access to information about the global state of the system, which justify the use distributed and localized approaches for solving the control problem. The problem is further complicated if partial or no information is known about the dynamic model of the system. A widely used approach for model free control is reinforcement learning (RL). A fundamental challenge of this approach in this setting is that the state-action space size scales exponentially with the number of agents, rendering the problem intractable for a large networks. This thesis presents a scalable and localized reinforcement learning approach to a traditional multi-agent formation control problem, with collision avoidance. A scalable reinforcement learning advantage actor critic algorithm is presented, based on previous work in the literature. Sub-optimal bounds are calculated for the accumulated reward and policy gradient localized approximations. The algorithm is tested on a two dimensional setting, with a network of mobile agents following simple integrator dynamics and stochastic localized policies. Neural networks are used to approximate the continuous value functions and policies. The formation control with collisions avoidance formulation and the algorithm presented show good scalability properties, with a polynomial increase in the number of function approximations parameters with number of agents. The reduced number of parameters decreases learning time for bigger networks, although the efficiency of computation is decreased compared to state of the art machine learning implementations. The policies obtained achieve probably safe trajectories although the lack of dynamic model makes it impossible to guarantee safety.}
+  venue   = {AAS Guidance, Navigation and Control Conference, Breckenridge, CO (submitted)},
+  website = {/sweep-imaging/},
+  image   = {research/sweep-imaging/cover.poster.jpg}
+}
+
+@unpublished{cheval2026dualactor,
+  title  = {Dual-Actor Transformer-Based Reinforcement Learning Architecture for Autonomous Earth Strip Imaging Scheduling},
+  author = {Cheval, Anaïs and Schaub, Hanspeter},
+  note   = {Under review at the Journal of Aerospace Information Systems},
+  year   = {2026},
+  venue   = {Journal of Aerospace Information Systems (under review)},
+  website = {/strip-imaging/},
+  image   = {research/strip-imaging/cover.poster.jpg}
+}
+
+@inproceedings{cheval2026hybrid,
+  title     = {Reinforcement Learning with Hybrid Action Representation for Autonomous Strip Imaging Task Scheduling in Super-Agile Satellites},
+  author    = {Cheval, Anaïs and Schaub, Hanspeter},
+  booktitle = {AIAA SCITECH 2026 Forum},
+  address   = {Orlando, FL},
+  year      = {2026},
+  month     = jan,
+  doi       = {10.2514/6.2026-0132},
+  url       = {https://doi.org/10.2514/6.2026-0132},
+  venue   = {AIAA SciTech Forum, Orlando, FL},
+  pdf     = {https://hanspeterschaub.info/Papers/Cheval2026.pdf},
+  video   = {https://youtu.be/h0CZHoRKfvA},
+  website = {/strip-imaging/},
+  image   = {research/strip-imaging/cover.poster.jpg},
+  abstract = {This paper investigates the use of Deep Reinforcement Learning (DRL) to address the scheduling problem for strip imaging tasks in the context of Super-Agile Earth-Observing Satellites (SAEOS). While DRL has proven effective for discrete point-target scheduling, existing literature has not considered the additional complexities of strip imaging tasks. Unlike static point targets, strip imaging requires tracking a moving reference point along a strip's central line, imposing strict constraints on transition times between tasks to satisfy field-of-view, attitude, and acquisition-speed requirements. As a result, the scheduler must not only select the next task to image but also accurately estimate the transition time required before starting image acquisition. To address these challenges, the strip-imaging scheduling problem is formulated as a Partially Observable semi-Markov Decision Process (POsMDP) with a hybrid action space, and a DRL framework specifically tailored for this problem HOP-PPO (Hybrid Observation task Planning-oriented Proximal Policy Optimization) is introduced. HOP-PPO employs a dual-actor architecture to effectively handle the hybrid action space and incorporates a transformer-based observation encoder to capture structural dependencies among tasks. A custom training environment is constructed using BSK-RL, a Python package based on Basilisk, which enables the creation of Gymnasium environments tailored for spacecraft task scheduling. Experimental results demonstrate that HOP-PPO outperforms the heuristic baseline by 36.3% in mean cumulative reward and achieves at least 25.9% superior performance compared to discretization-based and standard hybrid DRL methods.}
+}
+
+@inproceedings{ludwig2026trusted,
+  title     = {An Architecture for Trusted Long-Duration Satellite Autonomy},
+  author    = {Ludwig, Jeremy and Tuohy, Daniel and Schaub, Hanspeter and Cheval, Anaïs and Phillips, Sean and Miller, Kristina},
+  booktitle = {AIAA SCITECH 2026 Forum},
+  address   = {Orlando, FL},
+  year      = {2026},
+  month     = jan,
+  doi       = {10.2514/6.2026-0349},
+  url       = {https://doi.org/10.2514/6.2026-0349},
+  venue   = {AIAA SciTech Forum, Orlando, FL}
+}
+
+@inproceedings{cheval2025autonomous,
+  title     = {Autonomous Strip Imaging Task Scheduling in Super-Agile Satellites Using Reinforcement Learning},
+  author    = {Cheval, Anaïs and Schaub, Hanspeter},
+  booktitle = {AAS/AIAA Astrodynamics Specialist Conference},
+  address   = {Boston, MA},
+  year      = {2025},
+  month     = aug,
+  number    = {AAS 25-726},
+  venue   = {AAS/AIAA Astrodynamics Specialist Conference, Boston, MA},
+  pdf     = {https://hanspeterschaub.info/Papers/Cheval2025b.pdf},
+  website = {/strip-imaging/},
+  image   = {research/strip-imaging/cover.poster.jpg},
+  abstract = {This paper investigates the use of Deep Reinforcement Learning (DRL) to address the scheduling problem for strip imaging tasks in the context of Super-Agile Earth-Observing Satellites (SAEOS). Unlike point-target imaging, strip imaging enables continuous data collection along extended ground paths, making it essential for monitoring large-scale, elongated features such as international borders, coastlines, and mountain ranges, as well as broad areas decomposed into adjacent strips. A dedicated attitude guidance and control system tailored for strip imaging is developed and integrated into the high-fidelity Basilisk simulation framework. The strip-imaging scheduling problem is modeled as a Partially Observable semi-Markov Decision Process (POsMDP), and a custom training environment is built using BSK-RL, a Python package based on Basilisk for constructing Gymnasium environments for spacecraft tasking problems. A DRL based policy is trained and evaluated to allow autonomous on board decision making.}
+}
+
+@inproceedings{stephenson2025quantifying,
+  title     = {Quantifying the Optimality of a Distributed {RL}-Based Autonomous Earth-Observing Constellation},
+  author    = {Stephenson, Mark and Quevedo Mantovani, Lorenzzo and Cheval, Anaïs and Schaub, Hanspeter},
+  booktitle = {AAS Guidance, Navigation and Control Conference},
+  address   = {Breckenridge, CO},
+  year      = {2025},
+  month     = jan,
+  number    = {AAS 25-033},
+  venue   = {AAS Guidance, Navigation and Control Conference, Breckenridge, CO},
+  pdf     = {https://hanspeterschaub.info/Papers/Stephenson2025.pdf},
+  video   = {https://youtu.be/PD1P3oBOvQ4},
+  abstract = {The objective of the multiagent agile Earth-observing satellite scheduling problem is to maximize the global sum of values of imaging requests imaged by a constellation. Prior work has shown that individually-trained satellites executing a deep reinforcement learning policy can best be induced to cooperate on an Earth-observing mission by sharing their intended tasks as they select them; these agents are operating on asynchronous variable-duration decision intervals. Additionally, methods for determining the global optimum for request allocation have been developed. In this work, these two developments will be combined to quantify how close to global optimality the distributed method can achieve. The methods are evaluated over variety of constellation configurations and request distributions, demonstrating that the intent sharing method is very effective at collaboratively, autonomously, and reactively scheduling observations for the constellations.}
+}
+
+@mastersthesis{cheval2023tube,
+  title   = {Tube Neural Orbit Predictive Control in the Vicinity of Asteroids with Uncertain Dynamics},
+  author  = {Cheval, Anaïs},
+  school  = {KTH Royal Institute of Technology},
+  address = {Stockholm, Sweden},
+  year    = {2023},
+  month   = dec,
+  note    = {Research carried out at the Astrodynamics and Space Missions section, Delft University of Technology},
+  venue   = {Master's thesis, KTH Royal Institute of Technology (research at TU Delft)},
+  pdf     = {/msc-thesis/Cheval_2023_MSc_thesis.pdf},
+  website = {/msc-thesis/},
+  image   = {research/msc-thesis/eros_density.png},
+  abstract = {This thesis presents a Neural Tube Model Predictive Controller (MPC) for orbit control around asteroids. The complex and partially known gravity field of asteroids is modeled by a Physics-Informed Neural Network (PINN) trained on a high-resolution polyhedron model. This PINN gravity model, which offers improvements in computational efficiency over past analytic representations, is integrated as part of the dynamics within a nominal MPC pipeline. An online update of the PINN gravity model is investigated. A Tube MPC formulation with a Boundary Layer Sliding Mode Ancillary Controller is proposed to ensure robustness against unmodelled gravity and solar disturbances. The performances of the designed controller are illustrated in a realistic mission scenario on an unstable polar orbit around 433 Eros.}
 }
