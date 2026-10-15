@@ -20,16 +20,16 @@ if (!reducedMotion && "IntersectionObserver" in window) {
   }
 }
 
-// Light/dark theme button. Light is the default, whatever the system setting. Choosing dark is
-// stored and applied in <head> (base.liquid) before the page paints; going back to light clears it.
+// Light/dark theme button. Dark is the default, whatever the system setting. Choosing light is
+// stored and applied in <head> (base.liquid) before the page paints; going back to dark clears it.
 document.querySelector(".theme-toggle")?.addEventListener("click", () => {
   const root = document.documentElement;
-  const dark = root.dataset.theme !== "dark";
+  const light = root.dataset.theme !== "light";
   try {
-    if (dark) localStorage.setItem("theme", "dark");
+    if (light) localStorage.setItem("theme", "light");
     else localStorage.removeItem("theme");
   } catch {}
-  if (dark) root.dataset.theme = "dark";
+  if (light) root.dataset.theme = "light";
   else delete root.dataset.theme;
 });
 

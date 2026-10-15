@@ -155,27 +155,27 @@ test.describe("in the browser", () => {
 
   test("theme button switches and remembers the theme", async ({ page }) => {
     const bg = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    await page.emulateMedia({ colorScheme: "light" });
+    await page.emulateMedia({ colorScheme: "dark" });
     await page.goto("/");
-    expect(await bg()).toBe(LIGHT_BG);
-    await page.getByRole("button", { name: /light and dark/ }).click();
     expect(await bg()).toBe(DARK_BG);
+    await page.getByRole("button", { name: /light and dark/ }).click();
+    expect(await bg()).toBe(LIGHT_BG);
     await page.goto("/publications/");
-    expect(await bg()).toBe(DARK_BG);
-    // Back to light = same as the system, so the stored choice is cleared.
-    await page.getByRole("button", { name: /light and dark/ }).click();
     expect(await bg()).toBe(LIGHT_BG);
+    // Back to dark = the default, so the stored choice is cleared.
+    await page.getByRole("button", { name: /light and dark/ }).click();
+    expect(await bg()).toBe(DARK_BG);
     expect(await page.evaluate(() => localStorage.getItem("theme"))).toBeNull();
   });
 
-  test("light is the default, even with a dark system setting", async ({ page }) => {
+  test("dark is the default, even with a light system setting", async ({ page }) => {
     const bg = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    await page.emulateMedia({ colorScheme: "dark" });
+    await page.emulateMedia({ colorScheme: "light" });
     await page.goto("/");
-    expect(await bg()).toBe(LIGHT_BG);
-    // A stored dark choice is applied on load.
-    await page.evaluate(() => localStorage.setItem("theme", "dark"));
-    await page.reload();
     expect(await bg()).toBe(DARK_BG);
+    // A stored light choice is applied on load.
+    await page.evaluate(() => localStorage.setItem("theme", "light"));
+    await page.reload();
+    expect(await bg()).toBe(LIGHT_BG);
   });
 });
