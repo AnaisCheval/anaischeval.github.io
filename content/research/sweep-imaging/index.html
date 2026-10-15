@@ -1,0 +1,94 @@
+---
+title: "Vision-Transformer-Based Reinforcement Learning for Satellite Sweep Imaging under Clouds"
+venue: "AAS Guidance, Navigation and Control Conference 2027 (submitted)"
+authors:
+    - name: "Anaïs Cheval"
+      url: "/"
+    - name: "Hanspeter Schaub"
+      url: "https://hanspeterschaub.info/"
+affiliations:
+    - name: "AVS Lab, Ann and H.J. Smead Department of Aerospace Engineering Sciences, University of Colorado Boulder"
+      url: "https://hanspeterschaub.info/AVSlab.html"
+date: 2027-02-05
+description: "A medium-resolution satellite rolls its scan line across a 1,500 km corridor to sweep a continuous priority map, trading priority against a cloud forecast. A roll-conditioned vision transformer earns 51% more than nadir scanning and loses less of its sweep to clouds."
+cover: cover.mp4
+links:
+    - name: Paper (submitted)
+      icon: bi-file-earmark-pdf
+      url: ""
+    - name: BSK-RL
+      icon: bi-github
+      url: "https://github.com/AVSLab/bsk_rl"
+note: "Submitted to the AAS Guidance, Navigation and Control Conference, Breckenridge, CO, February 2027. A journal paper is in preparation."
+---
+
+<h2>Summary</h2>
+<p>
+  Medium-resolution imagers such as Landsat and Sentinel-2 scan at nadir, so their coverage is dictated by the orbit: a region off the ground track waits days for the next pass.
+  Rolling the scan line across track widens the ground reachable on a pass to a corridor about 1,500 km wide, so an event hundreds of kilometers away can be imaged now.
+  There is then no list of targets to sequence: the value of the ground is a <strong>continuous priority map</strong>, the clouds are a <strong>forecast map</strong>, and the decision is a <strong>continuous roll angle</strong>.
+</p>
+<p>
+  We propose a vision-transformer-based RL policy that reads the priority and the cloud forecast of the corridor ahead as an image, with one token per area instead of one per target, conditioned on the current roll angle.
+  Under clouds, it earns <span class="hl-amber">51% more</span> than nadir scanning, and the share of its sweep lost to clouds drops from 46% to <span class="hl-amber">37%</span>.
+</p>
+
+<h2>From nadir scanning to sweeping</h2>
+<div class="cols">
+  <figure><video src="roll.mp4" poster="roll.poster.jpg" width="640" height="360" data-autoplay controls loop muted playsinline preload="none"></video><figcaption>The satellite steers its 100 km swath with a single degree of freedom, the roll angle, up to 40&deg; at 0.29&deg;/s.</figcaption></figure>
+  <figure><video src="corridor.mp4" poster="corridor.poster.jpg" width="640" height="360" data-autoplay controls loop muted playsinline preload="none"></video><figcaption>Seen from above, rolling sweeps a corridor about 1,500 km wide around the nadir track, from an altitude of 800 km.</figcaption></figure>
+</div>
+<figure><img src="sweep_environment.jpg" alt="World map of a priority map under its cloud cover, with the ground track and the reachable band"><figcaption>One scenario over 2.7 orbits: the priority map under its cloud cover (gray), the ground reachable with roll (light blue band) and the nadir ground track (blue line).</figcaption></figure>
+<p>
+  The priority map is the union of 1,000 to 2,000 hot spots, half of them on coastal land.
+  The synthetic cloud cover follows the cloud fractions observed by MODIS, and an image counts only where the cloud fraction is below 0.65, which leaves roughly half of the priority under clear sky.
+</p>
+
+<h2>Problem</h2>
+<p>
+  The problem is a partially observable Markov decision process with decisions every 120 s.
+  The action is a roll target, which the attitude controller reaches by the end of the step at a bounded rate.
+  The reward is the priority swept under clear sky during the step; ground already swept earns nothing again.
+  The satellite never sees the true clouds, only a forecast with a spatially correlated error, and never sees the maps globally: it observes the corridor it will overfly in the next 10 minutes.
+</p>
+<figure><video src="observation.mp4" poster="observation.poster.jpg" width="1280" height="236" data-autoplay controls loop muted playsinline preload="none"></video><figcaption>The observation: the priority (left) and the cloud forecast (right) of the corridor ahead, on a grid of 128 by 64 pixels in flight time and cross-track distance, plus the current roll angle.</figcaption></figure>
+
+<h2>Architecture</h2>
+<div class="cols center" style="--cols: 6fr 5fr">
+  <figure><img src="sweep_architecture.png" alt="Vision transformer architecture conditioned on the roll angle"><figcaption>Vision-transformer-based RL architecture for cloud-aware sweep imaging.</figcaption></figure>
+  <div>
+    <ul class="small">
+      <li><strong>Per-pixel features.</strong> A pixel is worth imaging only if it has a high priority <em>and</em> is forecast clear, a nonlinear interaction. A shared per-pixel MLP first turns the priority and the forecast of each pixel into nonlinear features.</li>
+      <li><strong>One token per area.</strong> The feature maps are cut into patches and embedded into tokens with learned positions, as in a vision transformer.</li>
+      <li><strong>Conditioned on the roll angle.</strong> What can still be reached depends on the current roll, because the slew rate is bounded. As in diffusion transformers, the roll angle sets the scale, shift and gate of every transformer block (AdaLN-Zero).</li>
+      <li><strong>Actor and critic.</strong> The pooled tokens feed a continuous actor and a critic, trained with PPO.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Results</h2>
+<div class="cols center" style="--cols: 5fr 6fr">
+  <figure><img src="sweep_benchmark.png" alt="Bar chart of reward and priority lost to clouds for four policies"><figcaption>Mean over 100 scenarios of 3 orbits: reward (solid) and priority swept under clouds, which earns nothing (hatched). Error bars: standard error.</figcaption></figure>
+  <div>
+    <p class="small">
+      Two policies share the architecture: a <strong>cloud-blind</strong> one trained without clouds on the priority channel alone, and a <strong>cloud-aware</strong> one trained under clouds on both channels.
+      They are compared with nadir scanning and random scanning, all evaluated under clouds on the same 100 scenarios.
+    </p>
+    <p class="small">
+      Nadir scanning loses 46% of what it sweeps to clouds.
+      The cloud-blind policy steers toward high priority and earns 42% more than nadir scanning, but loses the same share to clouds.
+      The cloud-aware policy earns <strong>51% more</strong> than nadir scanning and 6% more than the cloud-blind policy, and loses only <strong>37%</strong> to clouds.
+    </p>
+  </div>
+</div>
+<figure><video src="cloud_aware_vs_blind.mp4" poster="cloud_aware_vs_blind.poster.jpg" width="1280" height="576" data-autoplay controls loop muted playsinline preload="none"></video><figcaption>First hour of the scenario above. Both policies weave across the whole corridor toward high-priority clusters hundreds of kilometers off-track; the cloud-aware policy also detours toward ground forecast as clear, and loses 22% of what it sweeps to clouds in this hour, against 35% for the cloud-blind policy.</figcaption></figure>
+
+<h2>Next</h2>
+<p>
+  The policy is being extended with the battery and reaction wheel constraints of the <a href="/safe-strip-imaging/">strip imaging work</a>, and its sweeps will cue the strip imaging satellites in the <a href="/tip-and-cue/">tip-and-cue constellation</a>.
+</p>
+
+<h2>Publication</h2>
+<ul class="small">
+  <li>A. Cheval and H. Schaub, &ldquo;Vision-Transformer-Based Reinforcement Learning for Satellite Sweep Imaging over Continuous Priority Maps under Clouds,&rdquo; <em>AAS Guidance, Navigation and Control Conference</em>, Breckenridge, CO, February 2027 (submitted).</li>
+</ul>
