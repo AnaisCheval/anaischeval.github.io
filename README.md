@@ -81,6 +81,9 @@ authors:
   - name: "Coauthor Name"
     url: "https://example.com"
     superscript: "2"
+# supervisors:                  # optional second line, "Supervised by ...", same fields as authors
+#   - name: "Hanspeter Schaub"
+#     superscript: "1"
 affiliations:
   - name: "University of Colorado Boulder"
     url: "https://www.colorado.edu/aerospace/"

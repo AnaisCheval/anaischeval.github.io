@@ -383,6 +383,8 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
 .paper-header h1 { max-width: 28ch; margin-inline: auto; }
 .authors, .affiliations { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem 1.1rem; margin: 0.75rem 0 0; }
 .authors { font-size: 1.05em; }
+.authors.supervisors { font-size: 0.975em; margin-top: 0.35rem; }
+.supervisors .role { color: var(--muted); }
 .authors a, .affiliations a { color: inherit; }
 .affiliations { color: var(--muted); font-size: 0.925em; }
 .buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin: 1.25rem 0 0; }

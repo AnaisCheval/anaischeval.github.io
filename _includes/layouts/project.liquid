@@ -9,6 +9,14 @@ layout: layouts/base.liquid
       <span>{% if a.url %}<a href="{{ a.url }}">{{ a.name }}</a>{% else %}{{ a.name }}{% endif %}{% if a.superscript %}<sup>{{ a.superscript }}</sup>{% endif %}</span>
       {%- endfor %}
     </p>
+    {%- if supervisors %}
+    <p class="authors supervisors">
+      <span class="role">Supervised by</span>
+      {%- for a in supervisors %}
+      <span>{% if a.url %}<a href="{{ a.url }}">{{ a.name }}</a>{% else %}{{ a.name }}{% endif %}{% if a.superscript %}<sup>{{ a.superscript }}</sup>{% endif %}</span>
+      {%- endfor %}
+    </p>
+    {%- endif %}
     {%- if affiliations %}
     <p class="affiliations">
       {%- for a in affiliations %}
