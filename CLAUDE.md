@@ -70,6 +70,8 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
   choice. Keep new colors as tokens with both values.
 - Page column `.flow`: text, figures, cards and the header/footer lines all share one column of at
   most 1120 px (`--wide`), so every left and right edge lines up.
+- Paragraphs of running text (`.intro-text p`, `article.flow > p`) are justified with `hyphens: auto` from
+  760 px up (2026-10-15); left-aligned on phones, where justified lines get wide gaps.
 - Fonts: Source Serif 4 (body) + Space Grotesk (headings), self-hosted variable WOFF2 (latin subset)
   in `public/fonts/`, OFL licenses next to them.
 - Theme, subtle deep space: navy ink and lines (`--accent`), brutalist cards with a violet-tinted offset

@@ -131,17 +131,27 @@ body::before, body::after {
 }
 body::before {
   background:
-    radial-gradient(7px circle at 2.5% 38%, var(--twinkle) 1.4px, var(--twinkle-halo) 2px, transparent),
-    radial-gradient(7px circle at 97.5% 82%, var(--twinkle) 1.4px, var(--twinkle-halo) 2px, transparent);
+    radial-gradient(7px circle at 1.5% 38%, var(--twinkle) 1.4px, var(--twinkle-halo) 2px, transparent),
+    radial-gradient(7px circle at 98.5% 82%, var(--twinkle) 1.4px, var(--twinkle-halo) 2px, transparent);
 }
 body::after {
-  background: radial-gradient(7px circle at 97% 47%, var(--twinkle) 1.4px, var(--twinkle-halo) 2px, transparent);
+  background: radial-gradient(7px circle at 98.5% 47%, var(--twinkle) 1.4px, var(--twinkle-halo) 2px, transparent);
   animation-duration: 7s;
   animation-delay: -3s;
 }
 @keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
 
 main { flex: 1; }
+
+/* Paragraphs of running text (homepage bio, project pages, pages, posts) are justified, with
+   hyphenation (lang="en"). Not on phones: lines of ~40 characters get wide gaps between words. */
+@media (min-width: 760px) {
+  .intro-text p, article.flow > p:not(.lead) {
+    text-align: justify;
+    hyphens: auto;
+    hyphenate-limit-chars: 6 3 3;
+  }
+}
 
 h1, h2, h3, h4 {
   font-family: var(--font-head);
