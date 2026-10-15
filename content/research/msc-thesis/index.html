@@ -1,0 +1,68 @@
+---
+title: "Tube Neural Orbit Predictive Control in the Vicinity of Asteroids with Uncertain Dynamics"
+venue: "Master's thesis, KTH Royal Institute of Technology, research at TU Delft"
+authors:
+    - name: "Anaïs Cheval"
+      url: "/"
+affiliations:
+    - name: "KTH Royal Institute of Technology"
+      url: "https://www.kth.se/en"
+    - name: "Delft University of Technology"
+      url: "https://www.tudelft.nl/en"
+date: 2023-12-01
+description: "Orbit control around the asteroid 433 Eros: a model predictive controller whose dynamics include a physics-informed neural network of the gravity field, with an ancillary controller that keeps the spacecraft in a 0.5 m tube despite unmodelled disturbances."
+cover: eros_density.png
+bibkey: cheval2023tube
+links:
+    - name: Thesis (PDF)
+      icon: bi-file-earmark-pdf
+      url: Cheval_2023_MSc_thesis.pdf
+note: "Master's thesis in aerospace engineering at KTH, written during an Erasmus exchange in the Astrodynamics and Space Missions section of TU Delft. Examiner: Christer Fuglesang. Supervisors: Erwin Mooij and Bart Root (TU Delft), Pedro Roque and Alessio Russo (KTH)."
+---
+
+<h2>Abstract</h2>
+<p>
+  This thesis presents a Neural Tube Model Predictive Controller (MPC) for orbit control around asteroids.
+  The complex and partially known gravity field of asteroids is modeled by a Physics-Informed Neural Network (PINN) trained on a high-resolution polyhedron model.
+  This PINN gravity model, which offers improvements in computational efficiency over past analytic representations, is integrated as part of the dynamics within a nominal MPC pipeline.
+  An online update of the PINN gravity model is investigated.
+  A Tube MPC formulation with a Boundary Layer Sliding Mode Ancillary Controller is proposed to ensure robustness against unmodelled gravity and solar disturbances.
+  The performances of the designed controller are illustrated in a realistic mission scenario on an unstable polar orbit around 433 Eros.
+</p>
+
+<h2>Mission scenario</h2>
+<div class="cols center">
+  <figure><img src="eros_density.png" alt="Polyhedron model of the asteroid Eros colored by density"><figcaption>The "real" gravity of Eros in the simulation: a polyhedron model with a heterogeneous density, unknown to the controller.</figcaption></figure>
+  <figure><img src="polar_orbit.png" alt="Uncontrolled spacecraft trajectory diverging from a 23 km polar orbit around Eros"><figcaption>Without control, a spacecraft on a 23 km polar orbit around Eros is unstable and impacts the asteroid after 26.5 hours.</figcaption></figure>
+</div>
+<p>
+  Polar orbits give global coverage of an asteroid, but around Eros those below about 35 km are unstable.
+  The controller must hold a 23 km polar orbit with a small spacecraft modeled on Hayabusa 2 and electric thrusters, with an irregular, partially known gravity field and solar radiation pressure.
+</p>
+
+<h2>Approach</h2>
+<ul>
+  <li><strong>A neural gravity model.</strong> A physics-informed neural network learns the gravity field of a 5,144-facet polyhedron model of Eros. Beyond the Brillouin sphere, it predicts the acceleration within 0.2% on average, 20 times less than the uncertainty on the real field, and evaluates 15 times faster than the polyhedron.</li>
+  <li><strong>A nominal neural MPC.</strong> The network is part of the dynamics of an MPC, linearized around each shooting node, which computes the optimal thrust and trajectory to track the target orbit.</li>
+  <li><strong>A tube around the nominal trajectory.</strong> A boundary-layer sliding-mode ancillary controller runs in real time and counteracts the unmodelled disturbances. For bounded disturbances, it keeps the spacecraft inside a tube of user-chosen radius around the nominal trajectory, and the tightened constraints of the nominal MPC keep the total thrust within the actuator limits.</li>
+</ul>
+
+<h2>Results</h2>
+<p>
+  Over one orbital period (9.1 hours), the controller tracks the unstable orbit at 1 Hz: the real trajectory stays within a 0.5 m tube around the nominal one, for 4.41% more fuel than the nominal plan.
+</p>
+
+<h3>Retraining the gravity model online</h3>
+<p>
+  During a mission, the navigation filter can estimate the gravity acceleration along the trajectory.
+  In the simulation, noisy estimates (up to 10% error) are collected every 10 minutes for 15 days on four stable polar orbits, from 35 to 50 km, and the network is retrained on them in 14 seconds before moving to the 23 km orbit.
+  The maximum error of the gravity model on the target orbit drops by 76.4%.
+</p>
+<div class="cols">
+  <figure><img src="disturbance_before.png" alt="Maximum gravity model error on a 23 km sphere before retraining"><figcaption>Maximum error of the neural gravity model on a 23 km sphere around Eros, before retraining.</figcaption></figure>
+  <figure><img src="disturbance_after.png" alt="Maximum gravity model error on a 23 km sphere after retraining"><figcaption>The same error after retraining on data from the stable orbits.</figcaption></figure>
+</div>
+<div class="cols">
+  <figure><img src="tube_mpc_errors.png" alt="Tracking error and control inputs over one orbit, before retraining"><figcaption>Before retraining: the real trajectory stays within the 0.5 m tube (dashed red), and the ancillary controller corrects the nominal thrust.</figcaption></figure>
+  <figure><img src="tube_mpc_errors_retrained.png" alt="Tracking error and control inputs over one orbit, after retraining"><figcaption>After retraining: the maximum tracking error and the maximum ancillary thrust drop by about two thirds, and the extra fuel falls from 4.41% to 1.36%.</figcaption></figure>
+</div>
