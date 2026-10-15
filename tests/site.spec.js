@@ -13,6 +13,9 @@ const site = JSON.parse(fs.readFileSync("_data/site.json", "utf8"));
 const oldUrls = loadYaml(fs.readFileSync("_data/redirects.yaml", "utf8"));
 const attr = (html, re) => [...html.matchAll(re)].map((m) => m[1]);
 const meta = (html, key) => attr(html, new RegExp(`<meta (?:name|property)="${key}" content="([^"]*)"`, "g"));
+// --bg of public/css/style.css in light and dark mode.
+const LIGHT_BG = "rgb(255, 255, 255)";
+const DARK_BG = "rgb(11, 17, 32)";
 
 test.describe("static checks", () => {
   test("internal links and media resolve to files", () => {
@@ -38,9 +41,6 @@ test.describe("static checks", () => {
       expect(fs.readFileSync(stub.file, "utf8")).toContain(to.includes("://") ? to : `${site.url}${to}`);
       if (!to.includes("://")) expect(resolve(to).status, to).toBe(200);
     }
-    // Old PDF paths are kept as copies.
-    expect(resolve("/assets/files/papers/Parallel_realization_RAL_final_arxiv_version.pdf").status).toBe(200);
-    expect(resolve("/assets/files/papers/ICAS2022_0447_paper.pdf").status).toBe(200);
   });
 
   test("HTML is valid", async () => {
@@ -136,7 +136,7 @@ test.describe("in the browser", () => {
     const videos = [];
     page.on("request", (req) => req.url().endsWith(".mp4") && videos.push(req.url()));
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/hybrid-flow-planning/", { waitUntil: "networkidle" });
+    await page.goto("/strip-imaging/", { waitUntil: "networkidle" });
     expect(videos).toEqual([]);
   });
 
@@ -153,24 +153,18 @@ test.describe("in the browser", () => {
     expect(text).not.toMatch(/\b(abstract|image|website|pubtype|venue)\s*=/);
   });
 
-  test("old research URL forwards to the new page", async ({ page }) => {
-    await page.goto("/research/hybrid-flow-planning");
-    await expect(page).toHaveURL(/\/hybrid-flow-planning\/$/);
-    await expect(page.locator("h1")).toContainText("Hybrid Flow Matching");
-  });
-
   test("theme button switches and remembers the theme", async ({ page }) => {
     const bg = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
     await page.emulateMedia({ colorScheme: "light" });
     await page.goto("/");
-    expect(await bg()).toBe("rgb(255, 255, 255)");
+    expect(await bg()).toBe(LIGHT_BG);
     await page.getByRole("button", { name: /light and dark/ }).click();
-    expect(await bg()).toBe("rgb(18, 18, 18)");
+    expect(await bg()).toBe(DARK_BG);
     await page.goto("/publications/");
-    expect(await bg()).toBe("rgb(18, 18, 18)");
+    expect(await bg()).toBe(DARK_BG);
     // Back to light = same as the system, so the stored choice is cleared.
     await page.getByRole("button", { name: /light and dark/ }).click();
-    expect(await bg()).toBe("rgb(255, 255, 255)");
+    expect(await bg()).toBe(LIGHT_BG);
     expect(await page.evaluate(() => localStorage.getItem("theme"))).toBeNull();
   });
 
@@ -178,6 +172,6 @@ test.describe("in the browser", () => {
     await page.emulateMedia({ colorScheme: "dark" });
     await page.goto("/");
     const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    expect(bg).toBe("rgb(18, 18, 18)");
+    expect(bg).toBe(DARK_BG);
   });
 });

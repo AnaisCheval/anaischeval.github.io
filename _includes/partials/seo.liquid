@@ -70,7 +70,7 @@
   "url": {{ site.url | append: "/" | json }},
   "image": {{ og_url | json }},
   "email": {{ site.email | prepend: "mailto:" | json }},
-  "jobTitle": "PhD candidate",
+  "jobTitle": {{ site.job_title | json }},
   "affiliation": { "@type": "CollegeOrUniversity", "name": {{ site.affiliation.name | json }}, "url": {{ site.affiliation.url | json }} },
   {%- assign sep = "" %}
   "sameAs": [{% for s in socials %}{% unless s.url contains "mailto:" %}{{ sep }}{{ s.url | json }}{% assign sep = ", " %}{% endunless %}{% endfor %}]
@@ -83,7 +83,9 @@
   "description": {{ desc | json }},
   "url": {{ canonical | json }},
   "image": {{ og_url | json }},
+  {%- unless date_label %}
   "datePublished": {{ page.date | isoDate | json }},
+  {%- endunless %}
   "author": [{% for a in authors %}{ "@type": "Person", "name": {{ a.name | json }} }{% unless forloop.last %}, {% endunless %}{% endfor %}]
 }
 {%- else %}

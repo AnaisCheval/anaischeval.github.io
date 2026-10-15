@@ -36,11 +36,6 @@ export default function (eleventyConfig) {
   for (const slug of projectSlugs()) {
     eleventyConfig.addPassthroughCopy({ [`${RESEARCH}/${slug}/*.${MEDIA}`]: slug });
   }
-  // Old PDF links from before the move to Eleventy.
-  eleventyConfig.addPassthroughCopy({
-    [`${RESEARCH}/parallel-realization/Parallel_realization_RAL_final_arxiv_version.pdf`]: "assets/files/papers/Parallel_realization_RAL_final_arxiv_version.pdf",
-    [`${RESEARCH}/alpha-uav/ICAS2022_0447_paper.pdf`]: "assets/files/papers/ICAS2022_0447_paper.pdf",
-  });
 
   // Drafts show in `npm run dev` but are not built for the live site.
   eleventyConfig.addPreprocessor("drafts", "*", (data) => {

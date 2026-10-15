@@ -1,12 +1,13 @@
 {
-  "title": "Andreu Matoses Gimenez",
-  "short_title": "Andreu",
-  "url": "https://andreumatoses.github.io",
-  "author": "Andreu Matoses Gimenez",
-  "description": "PhD candidate in planning for robotics at TU Delft. Generative models and physics simulation for task and motion planning.",
-  "email": "A.MatosesGimenez@tudelft.nl",
-  "affiliation": { "name": "Delft University of Technology", "url": "https://www.tudelft.nl/en" },
+  "title": "Anaïs Cheval",
+  "short_title": "Anaïs",
+  "url": "https://anaischeval.github.io",
+  "author": "Anaïs Cheval",
+  "job_title": "PhD student",
+  "description": "PhD student in aerospace engineering at CU Boulder (AVS Lab). Transformer-based reinforcement learning for autonomous and safe Earth-observing satellites.",
+  "email": "anais.cheval@colorado.edu",
+  "affiliation": { "name": "University of Colorado Boulder", "url": "https://www.colorado.edu/aerospace/" },
   "image": "img/profile.jpg",
-  "repo": "https://github.com/AndreuMatoses/andreumatoses.github.io",
+  "repo": "https://github.com/AnaisCheval/anaischeval.github.io",
   "lang": "en"
 }
