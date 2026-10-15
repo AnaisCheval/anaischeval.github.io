@@ -15,7 +15,7 @@ const attr = (html, re) => [...html.matchAll(re)].map((m) => m[1]);
 const meta = (html, key) => attr(html, new RegExp(`<meta (?:name|property)="${key}" content="([^"]*)"`, "g"));
 // --bg of public/css/style.css in light and dark mode.
 const LIGHT_BG = "rgb(255, 255, 255)";
-const DARK_BG = "rgb(11, 17, 32)";
+const DARK_BG = "rgb(12, 10, 28)";
 
 test.describe("static checks", () => {
   test("internal links and media resolve to files", () => {

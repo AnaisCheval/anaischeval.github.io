@@ -70,8 +70,10 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
 - Theme, subtle deep space: navy ink and lines (`--accent`), brutalist cards with a violet-tinted offset
   shadow (`--shadow`), violet links (`--link`). Accent tokens follow the colors of her figures:
   `--violet` strip satellites, `--amber` sweep satellite, `--teal` contacts, `--blue` Earth
-  (`.hl-violet`, `.hl-amber`, ...). Dark mode is navy (`#0b1120`) with a faint static starfield
-  (`--stars` on `body`, dark mode only); the theme test in `tests/site.spec.js` checks both `--bg` values.
+  (`.hl-violet`, `.hl-amber`, ...). Dark mode is an indigo night sky (`#0c0a1c`, chosen 2026-10-15 from 8
+  rendered variants): `--space` on `body` layers faint orbits (`public/css/orbits.svg`, top right; keep its
+  satellite in the right margin), a violet and a teal nebula glow, and a static starfield, all fixed while
+  scrolling. The theme test in `tests/site.spec.js` checks both `--bg` values.
 - Favicon: Earth, orbit and satellite (`public/favicon.svg`, with its own dark mode); the .ico and
   apple-touch-icon are exported from it with inkscape + ImageMagick.
 
@@ -86,7 +88,7 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
   when possible (e.g. 640×480) so the cards look even. `date_label:` replaces the date on a card (e.g.
   "Ongoing") and drops `datePublished` from the JSON-LD.
 - Figures: render PDFs and flatten transparent PNGs with `scripts/media.sh figure` (white background,
-  ~1600 px), or they disappear on the navy dark mode. Use JPEG for photo-like figures.
+  ~1600 px), or they disappear on the dark background. Use JPEG for photo-like figures.
 - The host has ffmpeg 4.4 (no `min(source_fps,30)`; `media.sh` uses its own `fpscap`). Source material
   (CV, comprehensive-exam slides with all videos, prospectus LaTeX and figures, MSc thesis) is in
   `context/`, which is private and ignored by git; extract into `media-originals/`.
