@@ -1,8 +1,10 @@
-# Andreu's academic website
+# Anaïs Cheval's academic website
 
-Source of [andreumatoses.github.io](https://andreumatoses.github.io). The site is built with
+Source of [anaischeval.github.io](https://anaischeval.github.io). The site is built with
 [Eleventy](https://www.11ty.dev/), uses plain CSS and a few lines of JavaScript, and is deployed to
-GitHub Pages by GitHub Actions. Feel free to use it as a template; please keep a link to this repository.
+GitHub Pages by GitHub Actions. It is adapted from
+[andreumatoses.github.io](https://github.com/AndreuMatoses/andreumatoses.github.io), with a deep-space
+theme: navy ink, violet links, Space Grotesk headings, and faint stars in dark mode.
 
 ## Preview and test
 
@@ -38,9 +40,7 @@ One-time setting: in the repository, go to Settings → Pages and set **Source**
 content/                    pages (the URL follows the folder)
   index.html                homepage: bio, news, research cards
   publications.html         list from _data/publications.bib
-  teaching.md
   research/<slug>/          one folder per project: index.md|html + its images, videos, PDFs
-  posts/<date-title>/       blog posts (index.md + images)
 _data/
   site.json                 name, URL, description, email
   news.yaml                 homepage news
@@ -50,7 +50,7 @@ _data/
   redirects.yaml            old URLs that forward to new ones
 _includes/                  layouts, partials (figure, gallery, card, ...) and icons
 public/                     copied as-is: css/style.css, js/site.js, fonts, site icons (favicon.svg/.ico, apple-touch-icon.png)
-scripts/media.sh            ffmpeg recipes for videos
+scripts/media.sh            ffmpeg recipes for videos, and figures from PDFs
 tests/                      Playwright tests and renders
 ```
 
@@ -69,19 +69,21 @@ Front matter:
 ---
 title: "Paper title"
 venue: "Conference (ABC) 2026"
-date: 2026-05-01                # sets the order on the homepage
+date: 2026-05-01                # sets the order on the homepage (newest first)
+# date_label: Ongoing           # optional: shown on the card instead of the date
 description: "Two or three sentences for the homepage card and for link previews."
 cover: cover.mp4                # or an image, e.g. teaser.jpg
-bibkey: matoses2026example      # optional: shows the citation from publications.bib
+bibkey: cheval2026example       # optional, published papers only: citation block + Google Scholar tags
 authors:
-  - name: "Andreu Matoses Gimenez"
+  - name: "Anaïs Cheval"
+    url: "/"
     superscript: "1"
   - name: "Coauthor Name"
     url: "https://example.com"
     superscript: "2"
 affiliations:
-  - name: "Delft University of Technology"
-    url: "https://www.tudelft.nl/en"
+  - name: "University of Colorado Boulder"
+    url: "https://www.colorado.edu/aerospace/"
     superscript: "1"
 links:                          # buttons under the title; an empty url shows a disabled button
   - name: Paper
@@ -133,18 +135,19 @@ Add the entry to `_data/publications.bib`. Paste the BibTeX from Google Scholar,
 the site-only fields. The copy button gives visitors the entry without these fields.
 
 ```bibtex
-@inproceedings{matoses2026example,
+@inproceedings{cheval2026example,
   title     = {Paper Title},
-  author    = {Matoses Gimenez, Andreu and Other, Author},
-  booktitle = {IEEE International Conference on Robotics and Automation (ICRA)},
+  author    = {Cheval, Anaïs and Schaub, Hanspeter},
+  booktitle = {AIAA SCITECH 2026 Forum},
+  address   = {Orlando, FL},
   year      = {2026},
-  month     = may,
-  url       = {https://ieeexplore.ieee.org/document/...},
-  eprint    = {2601.01234},
-  archiveprefix = {arXiv},
+  month     = jan,
+  doi       = {10.2514/6.2026-...},
+  url       = {https://doi.org/10.2514/6.2026-...},
+  venue    = {AIAA SciTech Forum, Orlando, FL},
+  pdf      = {https://hanspeterschaub.info/Papers/...pdf},
   image    = {research/example/cover.poster.jpg},
   website  = {/example/},
-  code     = {https://github.com/...},
   abstract = {...}
 }
 ```
@@ -154,10 +157,25 @@ The header of `publications.bib` lists all site-only fields (`pubtype`, `venue`,
 `@article` = journal, `@inproceedings` = conference, `@mastersthesis`/`@phdthesis` = thesis,
 `@misc` = preprint. Use `pubtype = {workshop}` for a workshop paper.
 
-**Submitted papers.** Keep the entry as `@misc` with `hidden = {true}` until it is public. When it is on
-arXiv, add `eprint` and `archiveprefix = {arXiv}`, and delete `hidden`. The paper then shows as a
-preprint with an arXiv link. When it is accepted, change it to `@inproceedings` (or `@article`) with
-the venue.
+Write names in UTF-8 (`Anaïs`, not `Ana{\"\i}s`): the name must match `author` in `_data/site.json`
+to show in bold. Keys use letters, digits and `_` only.
+
+**Status of a paper.**
+
+- **Submitted or under review:** `@unpublished` (listed with the label P), the status in `venue`, e.g.
+  `venue = {Journal of Aerospace Information Systems (under review)}`.
+- **Accepted:** `@inproceedings` (or `@article`), and the venue ends with `(accepted)`.
+- **Published:** add `doi`, `url` and, if available, `pdf`; remove `(accepted)`. Only now set `bibkey:` on
+  its project page.
+
+## Google Scholar
+
+A project page with `bibkey:` gets the `citation_*` meta tags that Google Scholar reads (title, authors,
+date, conference or institution, PDF). Use it only for published work (and the MSc thesis), so that
+submitted papers are not indexed early. For a PDF hosted on this site, put it in the project folder next
+to the page (as `content/research/msc-thesis/Cheval_2023_MSc_thesis.pdf`) and link it with `pdf` in the
+`.bib`. Scholar also reads the first page of the PDF, so its title page should show the right title,
+author and year.
 
 ## Edit the homepage, news, menu and contact links
 
@@ -168,9 +186,10 @@ the venue.
 
 ## Add a post
 
-Make `content/posts/YYYY-MM-DD-title/index.md` with `title`, `date` and (optional) `description` and
-`author`. A table of contents is added when the post has two or more `##` headings. Then uncomment the
-Posts entry in `_data/navigation.yaml`.
+The site has no blog page yet. To start one, copy `content/posts.html` and
+`content/posts/posts.11tydata.json` from the template repository, add `- { name: Posts, link: /posts/ }`
+to `_data/navigation.yaml`, and make `content/posts/YYYY-MM-DD-title/index.md` with `title`, `date` and
+(optional) `description`. A table of contents is added when the post has two or more `##` headings.
 
 ## Images and videos
 
@@ -183,6 +202,8 @@ Posts entry in `_data/navigation.yaml`.
   scripts/media.sh web    in.mp4 out.mp4          # page video: max 1280 px, 30 fps, web-safe
   scripts/media.sh cover  in.mp4 cover.mp4        # homepage card loop: max 640 px, no audio (aim for 4:3)
   scripts/media.sh poster cover.mp4 1             # still frame at 1 s -> cover.poster.jpg
+  scripts/media.sh figure fig.pdf fig.png         # figure from a PDF (or PNG): ~1600 px, white background
+  CRF=31 scripts/media.sh cover in.mp4 cover.mp4  # smaller cover (default 28)
   ```
 
   **Every video `X.mp4` needs a poster `X.poster.jpg`** next to it (`scripts/media.sh poster X.mp4`).
@@ -190,7 +211,10 @@ Posts entry in `_data/navigation.yaml`.
   The figure and gallery includes add the poster by this name; in HTML write `poster="X.poster.jpg"`.
   Add `width` and `height` to `<video>` (from `ffprobe`) so the page does not jump while it loads.
   Clips with `data-autoplay` play only while they are on screen, and download only then.
-- Keep the high-resolution originals outside the repository. `media-originals/` is ignored by git.
+- **Figures** with a transparent background become unreadable in dark mode: `scripts/media.sh figure`
+  renders PDFs and puts PNGs on white.
+- Keep the high-resolution originals outside the repository. `media-originals/` and `context/` (the CV,
+  slides and thesis sources the site was made from) are ignored by git.
 
 ## Old URLs
 

@@ -4,7 +4,9 @@ Guidance for AI assistants working in this repo.
 
 ## What this is
 
-A personal academic website (Andreu Matoses Gimenez), built with **Eleventy 3** (Liquid templates)
+A personal academic website (Anaïs Cheval, PhD student in the AVS Lab of Prof. Hanspeter Schaub, CU
+Boulder; RL for autonomous Earth-observing satellites), adapted from andreumatoses.github.io and built
+with **Eleventy 3** (Liquid templates)
 and deployed to **GitHub Pages by GitHub Actions** (`.github/workflows/deploy.yml`: build → Playwright
 tests → deploy, on `main` only). Plain CSS and a small JS file, no framework. Favor simplicity and easy
 content editing over abstraction. `README.md` is the user-facing "how to add content" guide; read it
@@ -63,13 +65,15 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
   Keep new colors as tokens with both values.
 - Page column `.flow`: text, figures, cards and the header/footer lines all share one column of at
   most 1120 px (`--wide`), so every left and right edge lines up.
-  **To revisit (decided 2026-10-06):** body text now runs up to ~110 characters per line on research
-  pages and posts (comfortable reading is ~60–80). Rendered alternatives: a 900 px page column (~91
-  chars, everything still aligned) or larger body text on wide screens (~97 chars).
-- Fonts: Source Serif 4 (body) + Inter (headings), self-hosted variable WOFF2 (latin subset) in
-  `public/fonts/`, OFL licenses next to them.
-- Theme: black borders/lines (`--accent`), brutalist cards with a light gray offset shadow
-  (`--shadow`), blue links (`--link`).
+- Fonts: Source Serif 4 (body) + Space Grotesk (headings), self-hosted variable WOFF2 (latin subset)
+  in `public/fonts/`, OFL licenses next to them.
+- Theme, subtle deep space: navy ink and lines (`--accent`), brutalist cards with a violet-tinted offset
+  shadow (`--shadow`), violet links (`--link`). Accent tokens follow the colors of her figures:
+  `--violet` strip satellites, `--amber` sweep satellite, `--teal` contacts, `--blue` Earth
+  (`.hl-violet`, `.hl-amber`, ...). Dark mode is navy (`#0b1120`) with a faint static starfield
+  (`--stars` on `body`, dark mode only); the theme test in `tests/site.spec.js` checks both `--bg` values.
+- Favicon: Earth, orbit and satellite (`public/favicon.svg`, with its own dark mode); the .ico and
+  apple-touch-icon are exported from it with inkscape + ImageMagick.
 
 ## Conventions and gotchas
 
@@ -79,14 +83,25 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
 - In HTML pages, write `&amp;` for a literal `&` inside `$$…$$` math (MathJax still reads it as `&`).
 - YAML data files: quote a value that contains `: `.
 - Card covers (`cover:`) are shown in their own shape, never cropped. Ask for / make 4:3 covers
-  when possible (e.g. 640×480) so the cards look even.
+  when possible (e.g. 640×480) so the cards look even. `date_label:` replaces the date on a card (e.g.
+  "Ongoing") and drops `datePublished` from the JSON-LD.
+- Figures: render PDFs and flatten transparent PNGs with `scripts/media.sh figure` (white background,
+  ~1600 px), or they disappear on the navy dark mode. Use JPEG for photo-like figures.
+- The host has ffmpeg 4.4 (no `min(source_fps,30)`; `media.sh` uses its own `fpscap`). Source material
+  (CV, comprehensive-exam slides with all videos, prospectus LaTeX and figures, MSc thesis) is in
+  `context/`, which is private and ignored by git; extract into `media-originals/`.
+- Publications: `@unpublished` + "(under review)" / "(submitted)" in `venue` for submitted work;
+  "(accepted)" until the DOI exists. Set `bibkey:` on a project page only for published work: it emits
+  the Google Scholar `citation_*` tags (`seo.liquid`). The MSc thesis PDF is hosted next to its page.
+- Facts on the research pages come from her prospectus and slides; do not invent numbers.
 - Videos: H.264, level ≤ 4.0, yuv420p, ≤ 30 fps, `+faststart` (`scripts/media.sh`). Give each `<video>`
   `width`/`height` and a poster: every `X.mp4` has `X.poster.jpg` (`scripts/media.sh poster X.mp4`; a
   test checks it). Use `data-autoplay … preload="none"` for clips; `site.js` plays them while visible.
 - Every page needs one `<h1>`, a `description` of 40+ characters, and an image for link previews.
   The tests check this, plus links, HTML validity, axe a11y, no sideways scroll at 360 px, and the
   homepage weight (< 1.5 MB).
-- Do not hand-edit `_site/`. Do not commit `_dev/`, `renders/`, `media-originals/`, `node_modules/`, `.cache/`.
+- Do not hand-edit `_site/`. Do not commit `_dev/`, `renders/`, `media-originals/`, `context/`,
+  `node_modules/`, `.cache/`.
 
 ## Git workflow
 
