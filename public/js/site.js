@@ -20,6 +20,37 @@ if (!reducedMotion && "IntersectionObserver" in window) {
   }
 }
 
+// Homepage: a small satellite orbits the photo, in front of it on the near half of the orbit.
+// The orbit (in % of the photo) comes from index.html. Without JavaScript, there is only the orbit line.
+const satellite = document.querySelector(".satellite[data-orbit]");
+if (satellite) {
+  const [cx, cy, rx, ry, tiltDeg] = satellite.dataset.orbit.split(" ").map(Number);
+  const tilt = (tiltDeg * Math.PI) / 180;
+  const period = 24000; // ms per orbit
+  const place = (t) => {
+    const x = rx * Math.cos(t), y = ry * Math.sin(t); // y > 0: near half
+    satellite.style.setProperty("--x", cx + x * Math.cos(tilt) - y * Math.sin(tilt));
+    satellite.style.setProperty("--y", cy + x * Math.sin(tilt) + y * Math.cos(tilt));
+    satellite.style.setProperty("--scale", 1 + 0.12 * Math.sin(t));
+    satellite.classList.toggle("behind", y < 0);
+  };
+  satellite.style.setProperty("--tilt", `${tiltDeg}deg`);
+  place(0.3 * Math.PI);
+  satellite.hidden = false;
+  // It moves only while on screen (and not with reduced motion).
+  if (!reducedMotion && "IntersectionObserver" in window) {
+    let frame = 0;
+    const step = (now) => {
+      place(0.3 * Math.PI + (2 * Math.PI * now) / period);
+      frame = requestAnimationFrame(step);
+    };
+    new IntersectionObserver(([entry]) => {
+      cancelAnimationFrame(frame);
+      if (entry.isIntersecting) frame = requestAnimationFrame(step);
+    }).observe(satellite.parentElement);
+  }
+}
+
 // Light/dark theme button. Dark is the default, whatever the system setting. Choosing light is
 // stored and applied in <head> (base.liquid) before the page paints; going back to dark clears it.
 document.querySelector(".theme-toggle")?.addEventListener("click", () => {

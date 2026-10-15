@@ -6,7 +6,27 @@ description: Anaïs Cheval, PhD student in aerospace engineering at the Universi
   <section class="intro">
     <div class="intro-head">
       <h1>{{ site.author }}</h1>
-      <img class="portrait" src="/img/profile.jpg" alt="Portrait of {{ site.author }}" loading="eager" fetchpriority="high" eleventy:widths="240,480" sizes="(min-width: 760px) 220px, 84px">
+      {%- comment %} A small satellite orbits the photo (site.js moves it). Orbit in % of the photo:
+      center, radii, tilt in degrees. The back half of the orbit line is under the photo, the front half on top. {% endcomment %}
+      {%- assign cx = 50 %}{% assign cy = 74 %}{% assign rx = 58 %}{% assign ry = 12 %}{% assign tilt = -14 %}
+      <div class="portrait-orbit">
+        <svg class="orbit" viewBox="-10 -10 120 120" aria-hidden="true">
+          <ellipse cx="{{ cx }}" cy="{{ cy }}" rx="{{ rx }}" ry="{{ ry }}" transform="rotate({{ tilt }} {{ cx }} {{ cy }})"/>
+        </svg>
+        <img class="portrait" src="/img/profile.jpg" alt="Portrait of {{ site.author }}" loading="eager" fetchpriority="high" eleventy:widths="240,480" sizes="(min-width: 760px) 220px, 84px">
+        <svg class="orbit orbit-front" viewBox="-10 -10 120 120" aria-hidden="true">
+          <clipPath id="orbit-near-half"><rect x="-20" y="{{ cy }}" width="140" height="40"/></clipPath>
+          <g transform="rotate({{ tilt }} {{ cx }} {{ cy }})">
+            <ellipse cx="{{ cx }}" cy="{{ cy }}" rx="{{ rx }}" ry="{{ ry }}" clip-path="url(#orbit-near-half)"/>
+          </g>
+        </svg>
+        <svg class="satellite" viewBox="0 0 26 10" data-orbit="{{ cx }} {{ cy }} {{ rx }} {{ ry }} {{ tilt }}" aria-hidden="true" hidden>
+          <path class="satellite-boom" d="M8 5h10"/>
+          <rect class="satellite-panel" x="0.5" y="1.5" width="8" height="7" rx="0.5"/>
+          <rect class="satellite-panel" x="17.5" y="1.5" width="8" height="7" rx="0.5"/>
+          <rect class="satellite-body" x="10" y="2.5" width="6" height="5" rx="1"/>
+        </svg>
+      </div>
     </div>
     <div class="intro-text">
       <p>

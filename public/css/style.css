@@ -240,14 +240,32 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
 .intro { display: grid; gap: 0 2.5rem; }
 .intro-head { display: grid; grid-template-columns: 84px 1fr; gap: 1rem; align-items: center; margin-bottom: 0.75rem; }
 .intro-head h1 { margin: 0; grid-column: 2; grid-row: 1; }
-.portrait { grid-column: 1; grid-row: 1; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 50%; border: 1px solid var(--rule); }
+.portrait-orbit { grid-column: 1; grid-row: 1; position: relative; isolation: isolate; }
+.portrait { position: relative; z-index: 1; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 50%; border: 1px solid var(--rule); }
+/* A small satellite orbits the photo (index.html, moved by site.js): the orbit line and the satellite
+   are under the photo on the far half of the orbit, on top of it on the near half. The orbit sticks
+   out at most 6% on each side of the photo, the satellite 11%: less than the page gutter. */
+.orbit { position: absolute; inset: -10%; z-index: 0; width: 120%; max-width: none; height: auto; pointer-events: none; overflow: visible; }
+.orbit-front { z-index: 2; }
+.orbit ellipse { fill: none; stroke: var(--muted); stroke-width: 1; vector-effect: non-scaling-stroke; opacity: 0.6; }
+.orbit-front ellipse { opacity: 0.8; }
+.satellite {
+  position: absolute; z-index: 3; left: calc(var(--x) * 1%); top: calc(var(--y) * 1%);
+  width: max(14px, 10%); max-width: none; height: auto; pointer-events: none;
+  transform: translate(-50%, -50%) rotate(var(--tilt)) scale(var(--scale, 1));
+}
+.satellite.behind { z-index: 0; }
+.satellite-panel { fill: var(--violet); stroke: var(--bg); stroke-width: 0.8; }
+.satellite-body { fill: var(--amber); stroke: var(--bg); stroke-width: 0.8; }
+.satellite-boom { stroke: var(--muted); stroke-width: 1.2; }
 .contact { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1rem; }
 .contact .socials { margin-left: -0.6rem; }
 @media (min-width: 760px) {
   .intro { display: flow-root; }
   .intro-head { display: contents; }
   /* margin-top lines the photo up with the capital letters of the first text line */
-  .portrait { float: right; width: clamp(170px, 16vw, 220px); margin: 0.4em 0 1rem 2.5rem; border-radius: var(--radius); }
+  .portrait-orbit { float: right; width: clamp(170px, 16vw, 220px); margin: 0.4em 0 1rem 2.5rem; }
+  .portrait { border-radius: var(--radius); }
   .intro-head h1 { margin-bottom: 0.5rem; }
 }
 
