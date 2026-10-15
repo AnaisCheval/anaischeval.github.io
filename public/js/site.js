@@ -20,19 +20,17 @@ if (!reducedMotion && "IntersectionObserver" in window) {
   }
 }
 
-// Light/dark theme button. A stored choice is applied in <head> (base.liquid) before the page paints.
-// Choosing the same theme as the system setting clears the choice, so the page follows the system again.
+// Light/dark theme button. Light is the default, whatever the system setting. Choosing dark is
+// stored and applied in <head> (base.liquid) before the page paints; going back to light clears it.
 document.querySelector(".theme-toggle")?.addEventListener("click", () => {
   const root = document.documentElement;
-  const systemDark = matchMedia("(prefers-color-scheme: dark)").matches;
-  const nowDark = root.dataset.theme ? root.dataset.theme === "dark" : systemDark;
-  const next = nowDark ? "light" : "dark";
+  const dark = root.dataset.theme !== "dark";
   try {
-    if ((next === "dark") === systemDark) localStorage.removeItem("theme");
-    else localStorage.setItem("theme", next);
+    if (dark) localStorage.setItem("theme", "dark");
+    else localStorage.removeItem("theme");
   } catch {}
-  if ((next === "dark") === systemDark) delete root.dataset.theme;
-  else root.dataset.theme = next;
+  if (dark) root.dataset.theme = "dark";
+  else delete root.dataset.theme;
 });
 
 document.addEventListener("click", async (event) => {

@@ -168,10 +168,14 @@ test.describe("in the browser", () => {
     expect(await page.evaluate(() => localStorage.getItem("theme"))).toBeNull();
   });
 
-  test("dark mode follows the system setting", async ({ page }) => {
+  test("light is the default, even with a dark system setting", async ({ page }) => {
+    const bg = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
     await page.emulateMedia({ colorScheme: "dark" });
     await page.goto("/");
-    const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    expect(bg).toBe(DARK_BG);
+    expect(await bg()).toBe(LIGHT_BG);
+    // A stored dark choice is applied on load.
+    await page.evaluate(() => localStorage.setItem("theme", "dark"));
+    await page.reload();
+    expect(await bg()).toBe(DARK_BG);
   });
 });

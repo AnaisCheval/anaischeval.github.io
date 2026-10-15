@@ -59,10 +59,11 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
 
 ## Styling
 
-- One file, `public/css/style.css`. Color tokens on `:root` as `light-dark(light, dark)`. The page
-  follows the system setting; the sun/moon button in the header sets `data-theme` on `<html>` (stored
-  in localStorage, applied by an inline script in `base.liquid` before paint), which sets `color-scheme`.
-  Keep new colors as tokens with both values.
+- One file, `public/css/style.css`. Color tokens on `:root` as `light-dark(light, dark)`. **Light is
+  the default** (decided 2026-10-15, "for now"; before, the page followed the system setting): only the
+  sun/moon button switches to dark, by setting `data-theme="dark"` on `<html>` (stored in localStorage,
+  applied by an inline script in `base.liquid` before paint), which sets `color-scheme`. Renders of
+  the dark scheme set that stored choice. Keep new colors as tokens with both values.
 - Page column `.flow`: text, figures, cards and the header/footer lines all share one column of at
   most 1120 px (`--wide`), so every left and right edge lines up.
 - Fonts: Source Serif 4 (body) + Space Grotesk (headings), self-hosted variable WOFF2 (latin subset)

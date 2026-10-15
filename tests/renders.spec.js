@@ -20,6 +20,8 @@ for (const scheme of ["light", "dark"]) {
         await page.setViewportSize(viewport);
         // Reduced motion: covers show their poster, so renders are stable.
         await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
+        // Light is the default; dark is the visitor's stored choice (site.js).
+        if (scheme === "dark") await page.addInitScript(() => localStorage.setItem("theme", "dark"));
         await page.goto(url, { waitUntil: "networkidle" });
         await page.evaluate(async () => {
           for (const img of document.querySelectorAll("img[loading=lazy]")) img.loading = "eager";
