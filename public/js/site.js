@@ -26,7 +26,7 @@ const satellite = document.querySelector(".satellite[data-orbit]");
 if (satellite) {
   const [cx, cy, rx, ry, tiltDeg] = satellite.dataset.orbit.split(" ").map(Number);
   const tilt = (tiltDeg * Math.PI) / 180;
-  const period = 24000; // ms per orbit
+  const period = 16000; // ms per orbit
   const place = (t) => {
     const x = rx * Math.cos(t), y = ry * Math.sin(t); // y > 0: near half
     satellite.style.setProperty("--x", cx + x * Math.cos(tilt) - y * Math.sin(tilt));

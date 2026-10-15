@@ -235,7 +235,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
 
 /* ---------- homepage ---------- */
 
-/* Phone: small round photo next to the name.
+/* Round photo, like a planet with a satellite (below). Phone: small, next to the name.
    Wider: under the name, the photo floats on the right (aligned with the cards) and the bio wraps around it. */
 .intro { display: grid; gap: 0 2.5rem; }
 .intro-head { display: grid; grid-template-columns: 84px 1fr; gap: 1rem; align-items: center; margin-bottom: 0.75rem; }
@@ -265,7 +265,6 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
   .intro-head { display: contents; }
   /* margin-top lines the photo up with the capital letters of the first text line */
   .portrait-orbit { float: right; width: clamp(170px, 16vw, 220px); margin: 0.4em 0 1rem 2.5rem; }
-  .portrait { border-radius: var(--radius); }
   .intro-head h1 { margin-bottom: 0.5rem; }
 }
 
