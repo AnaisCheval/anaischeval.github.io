@@ -10,7 +10,7 @@
   </div>
   <div class="card-body">
     <h3><a class="card-link" href="{{ href }}">{{ d.title }}</a></h3>
-    <p class="meta">{% for a in d.authors %}{{ a.name }}{% unless forloop.last %}, {% endunless %}{% endfor %} · <time datetime="{{ project.date | isoDate }}">{{ project.date | date: "%B %Y" }}</time></p>
+    <p class="meta">{% for a in d.authors %}{{ a.name }}{% unless forloop.last %}, {% endunless %}{% endfor %} · {% if d.date_label %}{{ d.date_label }}{% else %}<time datetime="{{ project.date | isoDate }}">{{ project.date | date: "%B %Y" }}</time>{% endif %}</p>
     {%- if d.venue %}
     <p class="venue">{{ d.venue }}</p>
     {%- endif %}

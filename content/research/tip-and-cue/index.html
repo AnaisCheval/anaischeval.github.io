@@ -1,0 +1,69 @@
+---
+title: "Learned Tip-and-Cue Coordination of Sweep and Strip Imaging Satellites"
+venue: "Ongoing thesis research"
+authors:
+    - name: "Anaïs Cheval"
+      url: "/"
+    - name: "Hanspeter Schaub"
+      url: "https://hanspeterschaub.info/"
+affiliations:
+    - name: "AVS Lab, Ann and H.J. Smead Department of Aerospace Engineering Sciences, University of Colorado Boulder"
+      url: "https://hanspeterschaub.info/AVSlab.html"
+date: 2027-03-01
+date_label: Ongoing
+description: "A sweep satellite detects events and hands strip requests to clusters of high-resolution satellites when they come into view. The satellites learn what to tell each other: messages within a cluster, and hand-offs across the constellation."
+cover: cover.mp4
+note: "Ongoing work: the last part of my PhD thesis, planned for 2027."
+---
+
+<div class="cols center" style="--cols: 5fr 6fr">
+  <figure><video src="storyline.mp4" poster="storyline.poster.jpg" width="1200" height="1200" controls loop muted playsinline preload="none"></video><figcaption>The constellation: a sweep satellite (amber) detects an event and turns it into strip requests, hands them over to the cluster in sight, and the cluster shares the strips among its satellites (violet).</figcaption></figure>
+  <div>
+    <h2>Summary</h2>
+    <p class="small">
+      Continuous monitoring of the Earth needs two kinds of satellites: scanners that detect events such as floods, wildfires and storms over wide areas, and high-resolution imagers that take detailed pictures of them.
+      This work brings the parts of my thesis together.
+      One <a href="/sweep-imaging/">sweep imaging satellite</a> detects events and turns them into strip requests, and several clusters of <a href="/safe-strip-imaging/">strip imaging satellites</a> image those strips.
+    </p>
+    <p class="small">
+      The coordination is learned with reinforcement learning at two levels: first <strong>within a cluster</strong>, where the satellites must share the strips without imaging any of them twice, then <strong>across the constellation</strong>, where the sweep satellite can only talk to a cluster while it is in sight.
+    </p>
+  </div>
+</div>
+
+<h2>Learned communication within a cluster</h2>
+<figure><video src="cluster_messages.mp4" poster="cluster_messages.poster.jpg" width="1280" height="520" data-autoplay controls loop muted playsinline preload="none"></video><figcaption>A cluster in train formation: the satellites fly on the same orbit a few minutes apart and broadcast messages after each decision, so that each strip is imaged by one of them only.</figcaption></figure>
+<div class="cols center" style="--cols: 5fr 6fr">
+  <figure><img src="cluster_architecture.png" alt="Policy of one satellite of the cluster, with teammate tokens and a message head"><figcaption>Policy of one satellite of the cluster.</figcaption></figure>
+  <div>
+    <p class="small">
+      The satellites of a cluster share the request set and see nearly the same ground, so most strips can be imaged by any of them.
+      Each one decides asynchronously, when its previous task ends, and a strip imaged by one disappears from the requests of the others.
+      The reward is cooperative: a second image of the same strip earns nothing.
+    </p>
+    <p class="small">
+      Every satellite runs the same policy, the <a href="/safe-strip-imaging/">safety-aware HOP-PPO</a> with two additions:
+      one input token per teammate, holding its last message, its along-track offset and the age of the message;
+      and a message head, which turns the pooled output of the transformer into the message broadcast to the teammates.
+      The messages are learned end to end with a centralized critic, and executed in a decentralized way, each satellite running its own copy.
+      The learned messages will be compared with intent sharing, where satellites broadcast the task they chose (<a href="https://hanspeterschaub.info/Papers/Stephenson2025.pdf">Stephenson et al.</a>).
+    </p>
+  </div>
+</div>
+
+<h2>Tip and cue across the constellation</h2>
+<div class="cols center" style="--cols: 5fr 6fr">
+  <figure><video src="handoff.mp4" poster="handoff.poster.jpg" width="1200" height="1200" data-autoplay controls loop muted playsinline preload="none"></video><figcaption>At each contact, the sweep satellite chooses between sweeping and communicating, and which requests to hand over to the cluster in sight.</figcaption></figure>
+  <div>
+    <p class="small">
+      The sweep satellite flies on a higher orbit than the clusters and can only communicate with one while it is in line of sight, a few minutes at a time.
+      As in NASA's Sensorweb, each event it detects becomes a set of strip requests whose priority decays with time.
+    </p>
+    <p class="small">
+      At each contact, it decides for every pending request whether to hand it over to the cluster in sight or keep it for a cluster met later, depending on their orbits, their resources and the strips they already hold.
+      It is rewarded with the priority each of its requests still has when a strip satellite images it, so an early hand-over to the right cluster earns more.
+      Its <a href="/sweep-imaging/">vision transformer</a> gains the messages of the clusters and one token per pending request as inputs, and a sweep-or-communicate decision with one keep-or-send output per request.
+      It will be compared with a heuristic that stops sweeping whenever a cluster is in sight with requests pending, and hands them all over.
+    </p>
+  </div>
+</div>
