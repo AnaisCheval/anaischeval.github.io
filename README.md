@@ -4,8 +4,9 @@ Source of [anaischeval.github.io](https://anaischeval.github.io). The site is bu
 [Eleventy](https://www.11ty.dev/), uses plain CSS and a few lines of JavaScript, and is deployed to
 GitHub Pages by GitHub Actions. It is adapted from
 [andreumatoses.github.io](https://github.com/AndreuMatoses/andreumatoses.github.io), with a deep-space
-theme: navy ink, violet links and Space Grotesk headings, over faint orbits, a nebula glow and stars (an
-indigo night sky in dark mode). A small satellite orbits the portrait on the homepage and the Earth of the
+theme: navy ink, violet links and Space Grotesk headings, over a faint sky (an indigo night sky in dark
+mode): orbits, constellations, a few twinkling stars, an aurora glow at the top and the edge of the Earth
+at the bottom of the screen. A small satellite orbits the portrait on the homepage and the Earth of the
 header logo.
 
 ## Preview and test

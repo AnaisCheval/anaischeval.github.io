@@ -76,10 +76,16 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
   shadow (`--shadow`), violet links (`--link`). Accent tokens follow the colors of her figures:
   `--violet` strip satellites, `--amber` sweep satellite, `--teal` contacts, `--blue` Earth
   (`.hl-violet`, `.hl-amber`, ...). Dark mode is an indigo night sky (`#0c0a1c`, chosen 2026-10-15 from 8
-  rendered variants): `--space` on `body` layers faint orbits (`public/css/orbits.svg`, top right; keep its
-  satellite in the right margin), a violet and a teal nebula glow, and a static starfield, all fixed while
-  scrolling. Light mode has a fainter daylight version of the same backdrop (added 2026-10-15): the same
-  layers with `light-dark()` colors (navy dots for stars) and `public/css/orbits-light.svg` (`--orbits`).
+  rendered variants): `--space` on `body` layers, top first, a few constellations in the side margins
+  (`public/css/constellations.svg`), faint orbits (`public/css/orbits.svg`, top right; keep its satellite in
+  the right margin), the edge of the Earth glowing at the bottom of the screen (`--horizon`, flatter on
+  phones), an aurora of soft glows at the top (teal, violet, pink) and a faint amber one at the bottom
+  right, and a static starfield, all fixed while scrolling. Three stars twinkle on `body::before/::after`
+  (opacity only; keep them at the screen edges). Chosen 2026-10-15 from 6 rendered options (star chart,
+  Earth horizon, aurora kept). Light mode has a fainter daylight version of the same backdrop: the same
+  layers with `light-dark()` colors (navy dots for stars) and the `-light.svg` files (`--constellations`,
+  `--orbits`). Chromium rejects `max()`/`calc()` mixing % and px in a gradient size, which drops the
+  whole backdrop: use plain values or a media query.
   The theme test in `tests/site.spec.js` checks both `--bg` values.
 - Satellites (2026-10-15): on the homepage, a small satellite orbits the round portrait (orbit numbers at
   the top of `content/index.html`, moved by `site.js`, in front of the photo on the near half). The header

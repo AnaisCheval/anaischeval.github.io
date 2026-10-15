@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+  <!-- Dark-mode backdrop of the page (style.css): a few faint constellations, mostly in the side margins. -->
+  <g fill="none" stroke="#c7b5ff" stroke-opacity="0.16" stroke-width="1">
+    <polyline points="40,130 78,160 110,138 144,166 180,142"/><!-- Cassiopeia-like W, top left -->
+    <polyline points="90,560 110,630 66,634 90,560 136,564 142,640 110,630"/><!-- small kite, bottom left -->
+    <polyline points="1230,160 1270,136 1308,150 1340,120"/><!-- short chain, top right -->
+    <polyline points="1250,600 1280,610 1308,606 1334,620 1342,660 1382,666 1376,626 1334,620"/><!-- dipper, bottom right -->
+  </g>
+  <g fill="#c7b5ff" fill-opacity="0.7">
+    <circle cx="40" cy="130" r="2.2"/><circle cx="78" cy="160" r="1.6"/><circle cx="110" cy="138" r="1.6"/><circle cx="144" cy="166" r="2.2"/><circle cx="180" cy="142" r="1.6"/><circle cx="90" cy="560" r="1.6"/><circle cx="110" cy="630" r="2.2"/><circle cx="66" cy="634" r="1.6"/><circle cx="136" cy="564" r="1.6"/><circle cx="142" cy="640" r="2.2"/><circle cx="1230" cy="160" r="1.6"/><circle cx="1270" cy="136" r="1.6"/><circle cx="1308" cy="150" r="2.2"/><circle cx="1340" cy="120" r="1.6"/><circle cx="1250" cy="600" r="1.6"/><circle cx="1280" cy="610" r="2.2"/><circle cx="1308" cy="606" r="1.6"/><circle cx="1334" cy="620" r="1.6"/><circle cx="1342" cy="660" r="2.2"/><circle cx="1382" cy="666" r="1.6"/><circle cx="1376" cy="626" r="1.6"/>
+  </g>
+</svg>

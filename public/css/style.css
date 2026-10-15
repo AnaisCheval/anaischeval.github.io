@@ -50,14 +50,22 @@
   --red: light-dark(#b42318, #ff7b72);
 
   /* The page backdrop (see body below), fixed while the page scrolls: a night sky in dark mode and
-     a fainter daylight version of it in light mode. Layers, top first: faint orbits at the top right
-     (css/orbits.svg, css/orbits-light.svg), a violet and a teal glow, and a static starfield (navy dots
-     in light mode) of tiles of different sizes, so its pattern does not visibly repeat. */
+     a fainter daylight version of it in light mode. Layers, top first: a few constellations in the side
+     margins (css/constellations*.svg), faint orbits at the top right (css/orbits*.svg), the edge of the
+     Earth glowing at the bottom of the screen, an aurora of soft glows at the top (teal, violet, pink)
+     and a faint amber one at the bottom right, and a static starfield (navy dots in light mode) of tiles
+     of different sizes, so its pattern does not visibly repeat. Three stars twinkle (body::before/after). */
+  --constellations: url("/css/constellations.svg");
   --orbits: url("/css/orbits.svg");
+  --horizon: 85% 34%;   /* size of the Earth's edge; flatter on phones (below) */
   --space:
+    var(--constellations) center / cover no-repeat fixed,
     var(--orbits) right -10vw top -6vw / min(1400px, 110vw) auto no-repeat fixed,
-    radial-gradient(60% 55% at 88% 8%, light-dark(rgb(90 63 192 / 0.07), rgb(124 92 255 / 0.16)), transparent 70%) 0 0 / 100% 100% no-repeat fixed,
-    radial-gradient(55% 50% at 4% 96%, light-dark(rgb(15 118 110 / 0.06), rgb(79 209 197 / 0.10)), transparent 70%) 0 0 / 100% 100% no-repeat fixed,
+    radial-gradient(var(--horizon) at 50% 120%, light-dark(rgb(29 95 191 / 0.035), rgb(29 95 191 / 0.10)) 60%, light-dark(rgb(29 95 191 / 0.07), rgb(29 95 191 / 0.22)) 99.2%, light-dark(rgb(29 95 191 / 0.30), rgb(124 183 255 / 0.45)) 100%, light-dark(rgb(124 183 255 / 0.16), rgb(124 183 255 / 0.18)) 101.5%, transparent 112%) 0 0 / 100% 100% no-repeat fixed,
+    radial-gradient(45% 40% at 18% 0%, light-dark(rgb(15 118 110 / 0.08), rgb(79 209 197 / 0.16)), transparent 70%) 0 0 / 100% 100% no-repeat fixed,
+    radial-gradient(55% 45% at 55% -5%, light-dark(rgb(90 63 192 / 0.09), rgb(124 92 255 / 0.20)), transparent 70%) 0 0 / 100% 100% no-repeat fixed,
+    radial-gradient(45% 45% at 95% 10%, light-dark(rgb(196 80 160 / 0.06), rgb(200 90 200 / 0.13)), transparent 70%) 0 0 / 100% 100% no-repeat fixed,
+    radial-gradient(40% 40% at 92% 100%, light-dark(rgb(240 180 76 / 0.08), rgb(240 180 76 / 0.07)), transparent 70%) 0 0 / 100% 100% no-repeat fixed,
     radial-gradient(1px 1px at 37px 59px, light-dark(rgb(15 26 46 / 0.25), rgb(255 255 255 / 0.55)), transparent) 0 0 / 431px 383px fixed,
     radial-gradient(1px 1px at 211px 143px, light-dark(rgb(15 26 46 / 0.16), rgb(255 255 255 / 0.35)), transparent) 0 0 / 557px 509px fixed,
     radial-gradient(1.5px 1.5px at 389px 277px, light-dark(rgb(15 26 46 / 0.23), rgb(255 255 255 / 0.5)), transparent) 0 0 / 677px 613px fixed,
@@ -67,15 +75,25 @@
     radial-gradient(1px 1px at 311px 89px, light-dark(rgb(15 26 46 / 0.14), rgb(255 255 255 / 0.3)), transparent) 0 0 / 389px 307px fixed,
     radial-gradient(1.5px 1.5px at 251px 401px, light-dark(rgb(15 26 46 / 0.25), rgb(220 225 255 / 0.55)), transparent) 0 0 / 739px 653px fixed;
 
+  --twinkle: light-dark(rgb(90 63 192 / 0.8), rgb(255 255 255 / 0.95));
+  --twinkle-halo: light-dark(rgb(90 63 192 / 0.12), rgb(255 255 255 / 0.12));
+
   --wide: 1120px;
   --gutter: 1rem;
   --radius: 6px;
   color-scheme: dark;
 }
-:root[data-theme="light"] { color-scheme: light; --orbits: url("/css/orbits-light.svg"); }
+:root[data-theme="light"] {
+  color-scheme: light;
+  --constellations: url("/css/constellations-light.svg");
+  --orbits: url("/css/orbits-light.svg");
+}
 
 @media (min-width: 760px) {
   :root { --gutter: 1.5rem; }
+}
+@media (max-width: 759px) {
+  :root { --horizon: 200% 30%; }
 }
 
 /* ---------- base ---------- */
@@ -101,6 +119,27 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 /* The backdrop is faint, so text stays readable on it; cards and panels keep a solid --bg/--surface fill. */
+/* Three twinkling stars over the backdrop, at the edges of the screen (in the page gutter on phones),
+   on their own layers (only their opacity changes), two timings so they do not twinkle together. They stand still with reduced motion (rule at the end). */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  animation: twinkle 5s ease-in-out infinite;
+}
+body::before {
+  background:
+    radial-gradient(7px circle at 2.5% 38%, var(--twinkle) 1.4px, var(--twinkle-halo) 2px, transparent),
+    radial-gradient(7px circle at 97.5% 82%, var(--twinkle) 1.4px, var(--twinkle-halo) 2px, transparent);
+}
+body::after {
+  background: radial-gradient(7px circle at 97% 47%, var(--twinkle) 1.4px, var(--twinkle-halo) 2px, transparent);
+  animation-duration: 7s;
+  animation-delay: -3s;
+}
+@keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
 
 main { flex: 1; }
 
