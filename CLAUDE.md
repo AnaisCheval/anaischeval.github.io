@@ -21,8 +21,11 @@ docker compose run --rm renders     # build + screenshots of every page -> rende
 RENDER_PAGES=/,/publications/ docker compose run --rm -e RENDER_PAGES renders   # some pages only
 ```
 
-For an agent: after a change, run `test`, then `renders` for the pages you touched, and **look at the
-PNGs** (phone/laptop/wide, light/dark) before you call a visual change done. Eleventy does not clear
+For an agent: **do not run the full test suite after every small edit** (text, a link, one value): it is
+too slow to iterate (decided 2026-10-15). The dev server (`docker compose up`, live reload) or a render
+of the touched page is enough to check those. Run `test` once before pushing a batch of changes (CI
+runs it on every push too), and for a visual change run `renders` for the pages you touched and **look
+at the PNGs** (phone/laptop/wide, light/dark) before you call it done. Eleventy does not clear
 `_site/`; stale files there can hide a broken link locally (CI builds from scratch). The dev server
 writes to `_dev/` (it also renders drafts), so it never pollutes the test build in `_site/`.
 
