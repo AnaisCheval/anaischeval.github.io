@@ -2,24 +2,32 @@
 
 // Muted looping clips (cards and figures) play only while on screen, so the
 // browser downloads a video only when someone scrolls to it.
-// On touch screens, the browser shows the controls over a clip most of the time: there they appear
-// only after a tap on the video (or if the browser blocks autoplay, as an iPhone in Low Power Mode).
+// Browsers draw the controls over a clip whenever it is paused or loading (Chrome and Firefox also
+// for a while after it starts, with a gray gradient; phones most of the time), so the controls of
+// these clips show only while the pointer is on the video, after a tap, or with keyboard focus
+// (also if the browser blocks autoplay, as an iPhone in Low Power Mode, so a clip can be started).
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const touch = matchMedia("(hover: none)").matches;
 if (!reducedMotion && "IntersectionObserver" in window) {
-  const showControls = (video) => { if (video.dataset.tapControls) video.controls = true; };
+  const showControls = (video) => { if (video.dataset.hoverControls) video.controls = true; };
+  const hideControls = (video) => {
+    if (!video.dataset.blocked && !video.matches(":hover, :focus")) video.controls = false;
+  };
   const observer = new IntersectionObserver((entries) => {
     for (const { target: video, isIntersecting } of entries) {
       if (isIntersecting && !video.dataset.userPaused) {
-        video.play().catch((error) => { if (error.name === "NotAllowedError") showControls(video); });
+        video.play().catch((error) => {
+          if (error.name === "NotAllowedError") { video.dataset.blocked = "1"; showControls(video); }
+        });
       } else if (!isIntersecting && !video.paused) video.pause();
     }
   }, { rootMargin: "200px 0px" });
   for (const video of document.querySelectorAll("video[data-autoplay]")) {
-    if (touch && video.controls) {
+    if (video.controls) {
       video.controls = false;
-      video.dataset.tapControls = "1";
-      video.addEventListener("click", () => showControls(video), { once: true });
+      video.dataset.hoverControls = "1";
+      video.tabIndex = 0; // without controls, a video cannot get keyboard focus
+      for (const type of ["mouseenter", "focus", "click"]) video.addEventListener(type, () => showControls(video));
+      for (const type of ["mouseleave", "blur"]) video.addEventListener(type, () => hideControls(video));
     }
     observer.observe(video);
     // Respect a pause from the video controls.

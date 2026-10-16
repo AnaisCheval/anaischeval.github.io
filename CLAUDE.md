@@ -118,8 +118,9 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
 - Videos: H.264, level ≤ 4.0, yuv420p, ≤ 30 fps, `+faststart` (`scripts/media.sh`). Give each `<video>`
   `width`/`height` and a poster: every `X.mp4` has `X.poster.jpg` (`scripts/media.sh poster X.mp4`; a
   test checks it). Use `data-autoplay … preload="none"` for clips; `site.js` plays them while visible.
-  On touch screens `site.js` hides the controls of `data-autoplay` clips until a tap (or if autoplay is
-  blocked), since phones otherwise show them over the clip most of the time (2026-10-16).
+  `site.js` hides the controls of `data-autoplay` clips and shows them only on hover, tap or keyboard
+  focus (it gives the video `tabindex=0`), or if autoplay is blocked: browsers otherwise draw them
+  over the clip (Chrome with a gray gradient; phones most of the time) (2026-10-16).
 - Every page needs one `<h1>`, a `description` of 40+ characters, and an image for link previews.
   The tests check this, plus links, HTML validity, axe a11y, no sideways scroll at 360 px, and the
   homepage weight (< 1.5 MB).
