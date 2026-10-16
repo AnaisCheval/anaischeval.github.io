@@ -2,15 +2,25 @@
 
 // Muted looping clips (cards and figures) play only while on screen, so the
 // browser downloads a video only when someone scrolls to it.
+// On touch screens, the browser shows the controls over a clip most of the time: there they appear
+// only after a tap on the video (or if the browser blocks autoplay, as an iPhone in Low Power Mode).
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const touch = matchMedia("(hover: none)").matches;
 if (!reducedMotion && "IntersectionObserver" in window) {
+  const showControls = (video) => { if (video.dataset.tapControls) video.controls = true; };
   const observer = new IntersectionObserver((entries) => {
     for (const { target: video, isIntersecting } of entries) {
-      if (isIntersecting && !video.dataset.userPaused) video.play().catch(() => {});
-      else if (!isIntersecting && !video.paused) video.pause();
+      if (isIntersecting && !video.dataset.userPaused) {
+        video.play().catch((error) => { if (error.name === "NotAllowedError") showControls(video); });
+      } else if (!isIntersecting && !video.paused) video.pause();
     }
   }, { rootMargin: "200px 0px" });
   for (const video of document.querySelectorAll("video[data-autoplay]")) {
+    if (touch && video.controls) {
+      video.controls = false;
+      video.dataset.tapControls = "1";
+      video.addEventListener("click", () => showControls(video), { once: true });
+    }
     observer.observe(video);
     // Respect a pause from the video controls.
     video.addEventListener("pause", () => {
