@@ -1,8 +1,9 @@
 {
-  "title": "Anaïs Cheval",
+  "title": "Anaïs Pascale Cheval",
   "short_title": "Anaïs",
   "url": "https://anaischeval.github.io",
-  "author": "Anaïs Cheval",
+  "author": "Anaïs Pascale Cheval",
+  "author_in_papers": "Anaïs Cheval",
   "job_title": "PhD student",
   "description": "PhD student in aerospace engineering at CU Boulder (AVS Lab). Transformer-based reinforcement learning for autonomous and safe Earth-observing satellites.",
   "email": "anais.cheval@colorado.edu",

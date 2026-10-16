@@ -4,7 +4,7 @@ Guidance for AI assistants working in this repo.
 
 ## What this is
 
-A personal academic website (Anaïs Cheval, PhD student in the AVS Lab of Prof. Hanspeter Schaub, CU
+A personal academic website (Anaïs Pascale Cheval, PhD student in the AVS Lab of Prof. Hanspeter Schaub, CU
 Boulder; RL for autonomous Earth-observing satellites), adapted from andreumatoses.github.io and built
 with **Eleventy 3** (Liquid templates)
 and deployed to **GitHub Pages by GitHub Actions** (`.github/workflows/deploy.yml`: build → Playwright
@@ -111,6 +111,9 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
 - The host has ffmpeg 4.4 (no `min(source_fps,30)`; `media.sh` uses its own `fpscap`). Source material
   (CV, comprehensive-exam slides with all videos, prospectus LaTeX and figures, MSc thesis) is in
   `context/`, which is private and ignored by git; extract into `media-originals/`.
+- Her name: "Anaïs Pascale Cheval" on the site (`site.author`, `site.title`; 2026-10-16), but "Anaïs
+  Cheval" as in her papers (`site.author_in_papers`): author lists on project pages, `publications.bib`,
+  the bold name in publication lists, and the JSON-LD `alternateName`. Keep the papers' spelling there.
 - Publications: `@unpublished` + "(under review)" / "(submitted)" in `venue` for submitted work;
   "(accepted)" until the DOI exists. Set `bibkey:` on a project page only for published work: it emits
   the Google Scholar `citation_*` tags (`seo.liquid`). The MSc thesis PDF is hosted next to its page.

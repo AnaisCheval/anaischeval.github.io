@@ -67,6 +67,7 @@
   "@context": "https://schema.org",
   "@type": "Person",
   "name": {{ site.author | json }},
+  "alternateName": {{ site.author_in_papers | json }},
   "url": {{ site.url | append: "/" | json }},
   "image": {{ og_url | json }},
   "email": {{ site.email | prepend: "mailto:" | json }},

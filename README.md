@@ -1,4 +1,4 @@
-# Anaïs Cheval's academic website
+# Anaïs Pascale Cheval's academic website
 
 Source of [anaischeval.github.io](https://anaischeval.github.io). The site is built with
 [Eleventy](https://www.11ty.dev/), uses plain CSS and a few lines of JavaScript, and is deployed to
@@ -167,8 +167,9 @@ The header of `publications.bib` lists all site-only fields (`pubtype`, `venue`,
 crop of one of its figures in `content/img/pubs/` (e.g. `image = {img/pubs/ludwig2026trusted.png}`).
 An entry without `image` shows a neutral square with an orbit mark, so the list stays aligned.
 
-Write names in UTF-8 (`Anaïs`, not `Ana{\"\i}s`): the name must match `author` in `_data/site.json`
-to show in bold. Keys use letters, digits and `_` only.
+Write names in UTF-8 (`Anaïs`, not `Ana{\"\i}s`): the name must match `author_in_papers` in
+`_data/site.json` ("Anaïs Cheval", as in the papers; the site shows "Anaïs Pascale Cheval") to show
+in bold. Keys use letters, digits and `_` only.
 
 **Status of a paper.**
 
