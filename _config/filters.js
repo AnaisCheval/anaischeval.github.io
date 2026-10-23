@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { createHash } from "node:crypto";
 import Image from "@11ty/eleventy-img";
 import site from "../_data/site.json" with { type: "json" };
 
@@ -24,6 +25,13 @@ function icon(name) {
 // Display math, \( \), \[ \], or inline $..$ in the rendered page.
 function hasMath(html) {
   return /\$\$[\s\S]+?\$\$|\\\(|\\\[|\$[^$\s<][^$<\n]*?\$/.test(html || "");
+}
+
+// "/css/style.css" -> "/css/style.css?v=<hash of the file in public/>": the URL changes when the file
+// does, so browsers (Safari keeps old copies longest) never pair a new page with an old stylesheet.
+function versioned(path) {
+  const hash = createHash("sha256").update(fs.readFileSync(`public${path}`)).digest("hex").slice(0, 10);
+  return `${path}?v=${hash}`;
 }
 
 function absoluteUrl(path) {
@@ -86,6 +94,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("icon", icon);
   eleventyConfig.addFilter("hasMath", hasMath);
   eleventyConfig.addFilter("absoluteUrl", absoluteUrl);
+  eleventyConfig.addFilter("versioned", versioned);
   eleventyConfig.addAsyncFilter("ogImage", ogImage);
   eleventyConfig.addFilter("publicationList", publicationList);
   eleventyConfig.addFilter("findPublication", findPublication);

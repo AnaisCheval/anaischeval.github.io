@@ -7,7 +7,7 @@
   <script>try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
   {% include "partials/seo.liquid" %}
   {% include "partials/fonts.liquid" %}
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="{{ "/css/style.css" | versioned }}">
   <link rel="icon" href="/favicon.ico" sizes="32x32">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -22,7 +22,7 @@
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
   {%- endif %}
-  <script defer src="/js/site.js"></script>
+  <script defer src="{{ "/js/site.js" | versioned }}"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>

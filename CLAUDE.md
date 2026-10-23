@@ -131,6 +131,9 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
 - Every page needs one `<h1>`, a `description` of 40+ characters, and an image for link previews.
   The tests check this, plus links, HTML validity, axe a11y, no sideways scroll at 360 px, and the
   homepage weight (< 1.5 MB).
+- `base.liquid` links `style.css` and `site.js` through the `versioned` filter (`?v=` + a hash of the file):
+  GitHub Pages lets browsers cache them, and Safari paired new HTML with an old stylesheet (2026-10-23).
+  Use it for any new stylesheet or script linked from a page.
 - Do not hand-edit `_site/`. Do not commit `_dev/`, `renders/`, `media-originals/`, `context/`,
   `node_modules/`, `.cache/`.
 
