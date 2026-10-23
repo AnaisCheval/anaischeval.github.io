@@ -6,8 +6,13 @@ GitHub Pages by GitHub Actions. It is adapted from
 [andreumatoses.github.io](https://github.com/AndreuMatoses/andreumatoses.github.io), with a deep-space
 theme: navy ink, violet links and Space Grotesk headings, over a faint sky (an indigo night sky in dark
 mode): orbits, constellations, a few twinkling stars, an aurora glow at the top and the edge of the Earth
-at the bottom of the screen. A small satellite orbits the portrait on the homepage and the Earth of the
-header logo.
+at the bottom of the screen. A small satellite orbits the Earth of the header logo and, on phones, the
+round portrait on the homepage.
+
+Homepage photos: `content/img/profile-2026.jpg` (round, on phones and in link previews) and
+`content/img/profile-2026-lab.jpg` (on wider screens). To switch back to the previous photo
+(`content/img/profile.jpg`), use it for the round photo in `content/index.html` and as `image` in
+`_data/site.json`, and remove the `portrait-lab` image.
 
 ## Preview and test
 

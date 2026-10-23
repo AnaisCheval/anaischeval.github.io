@@ -89,7 +89,11 @@ tests/                 serve.js (GitHub-Pages-like static server), pages.js, sit
   `--orbits`). Chromium rejects `max()`/`calc()` mixing % and px in a gradient size, which drops the
   whole backdrop: use plain values or a media query.
   The theme test in `tests/site.spec.js` checks both `--bg` values.
-- Satellites (2026-10-15): on the homepage, a small satellite orbits the round portrait (orbit numbers at
+- Homepage photos (2026-10-23): phones show a round close-up (`content/img/profile-2026.jpg`, also the
+  link-preview image `site.image`) with the orbiting satellite; from 760 px a 5:6 photo of her next to a
+  satellite model in the lab (`profile-2026-lab.jpg`, `.portrait-lab`, lazy so phones skip it), 280 px wide
+  so it ends about where the bio does. Her previous photo is kept as `content/img/profile.jpg`.
+- Satellites (2026-10-15): on the homepage, a small satellite orbits the round portrait on phones (orbit numbers at
   the top of `content/index.html`, moved by `site.js`, in front of the photo on the near half). The header
   logo (`header.liquid`) is the favicon's Earth with a satellite circling it (SVG animation). Both stand
   still with reduced motion.

@@ -13,7 +13,7 @@ description: Anaïs Pascale Cheval, PhD student in aerospace engineering at the 
         <svg class="orbit" viewBox="-10 -10 120 120" aria-hidden="true">
           <ellipse cx="{{ cx }}" cy="{{ cy }}" rx="{{ rx }}" ry="{{ ry }}" transform="rotate({{ tilt }} {{ cx }} {{ cy }})"/>
         </svg>
-        <img class="portrait" src="/img/profile.jpg" alt="Portrait of {{ site.author }}" loading="eager" fetchpriority="high" eleventy:widths="240,480" sizes="(min-width: 760px) 220px, 84px">
+        <img class="portrait" src="/img/profile-2026.jpg" alt="Portrait of {{ site.author }}" loading="eager" eleventy:widths="240" sizes="84px">
         <svg class="orbit orbit-front" viewBox="-10 -10 120 120" aria-hidden="true">
           <clipPath id="orbit-near-half"><rect x="-20" y="{{ cy }}" width="140" height="40"/></clipPath>
           <g transform="rotate({{ tilt }} {{ cx }} {{ cy }})">
@@ -27,6 +27,9 @@ description: Anaïs Pascale Cheval, PhD student in aerospace engineering at the 
           <rect class="satellite-body" x="10" y="2.5" width="6" height="5" rx="1"/>
         </svg>
       </div>
+      {%- comment %} Wider screens show this photo instead of the round one: her next to a satellite model in
+      the lab. Lazy, so phones (where it is hidden) do not download it. The previous photo is img/profile.jpg. {% endcomment %}
+      <img class="portrait-lab" src="/img/profile-2026-lab.jpg" alt="{{ site.author }} next to a satellite model in the lab" loading="lazy" eleventy:widths="300,600" sizes="280px">
     </div>
     <div class="intro-text">
       <p>
