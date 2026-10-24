@@ -35,7 +35,7 @@ writes to `_dev/` (it also renders drafts), so it never pollutes the test build 
 eleventy.config.js     plugins, passthrough copy, collections, slug-clash check
 _config/               filters.js (icon, ogImage, publicationList, toc, ...), bibtex.js (own small
                        .bib parser), markdown-math.js (keeps $..$ away from markdown)
-_data/                 site.json, news.yaml, navigation.yaml, socials.yaml, redirects.yaml,
+_data/                 site.json, news.yaml, teaching.yaml, navigation.yaml, socials.yaml, redirects.yaml,
                        publications.bib (parsed by _config/bibtex.js into `publications`)
 _includes/layouts/     base.liquid -> page | project | post
 _includes/partials/    seo, header, footer, socials, project-card, publication, bibtex, figure, gallery

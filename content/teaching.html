@@ -1,0 +1,25 @@
+---
+title: Teaching
+permalink: /teaching/
+description: Teaching, guest lectures, seminars and tutoring by Anaïs Pascale Cheval at the University of Colorado Boulder and in France.
+---
+{%- for group in teaching %}
+{%- assign id = group.group | slugify %}
+<section class="pub-year wide" aria-labelledby="{{ id }}">
+  <h2 id="{{ id }}">{{ group.group }}</h2>
+  <ol class="entries">
+    {%- for item in group.items %}
+    <li class="entry">
+      <p class="entry-date">{{ item.date }}</p>
+      <div>
+        <p class="pub-title">{{ item.title }}</p>
+        <p class="pub-venue">{{ item.role }} · {{ item.place }}{% if item.upcoming %} · <span class="award">upcoming</span>{% endif %}</p>
+        {%- if item.text %}
+        <p class="entry-text">{{ item.text }}</p>
+        {%- endif %}
+      </div>
+    </li>
+    {%- endfor %}
+  </ol>
+</section>
+{%- endfor %}

@@ -48,10 +48,12 @@ One-time setting: in the repository, go to Settings → Pages and set **Source**
 content/                    pages (the URL follows the folder)
   index.html                homepage: bio, news, research cards
   publications.html         list from _data/publications.bib
+  teaching.html             list from _data/teaching.yaml
   research/<slug>/          one folder per project: index.md|html + its images, videos, PDFs
 _data/
   site.json                 name, URL, description, email
   news.yaml                 homepage news
+  teaching.yaml             teaching page: courses, seminars, tutoring
   publications.bib          all publications
   navigation.yaml           top menu
   socials.yaml              contact icons

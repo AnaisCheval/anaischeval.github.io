@@ -257,6 +257,11 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
   .name-full { display: none; }
   .name-short { display: inline; }
 }
+/* Small phones (360 px): tighter gaps, so the logo, name, two links and theme button still fit. */
+@media (max-width: 400px) {
+  .site-nav { column-gap: 0.75rem; }
+  .site-nav ul { gap: 0.7rem; }
+}
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -455,6 +460,19 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
   cursor: pointer;
 }
 .copy:hover { background: var(--accent); color: var(--on-accent); }
+
+/* ---------- teaching (same look as the publications; the date in its own column from 640 px) ---------- */
+.entries { list-style: none; padding: 0; }
+.entries li + li { margin: 0; }
+.entry { display: grid; gap: 0.2rem 1.25rem; padding: 0.9rem 0; border-bottom: 1px solid var(--rule); }
+.entry:last-child { border-bottom: 0; }
+.entry p { margin: 0 0 0.2rem; }
+.entry-date { font-family: var(--font-head); font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.entry-text { font-size: 0.925rem; }
+@media (min-width: 640px) {
+  .entry { grid-template-columns: 120px 1fr; }
+  .entry-date { padding-top: 0.15rem; }
+}
 
 /* ---------- research page ---------- */
 

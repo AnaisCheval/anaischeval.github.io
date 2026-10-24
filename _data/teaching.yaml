@@ -1,0 +1,34 @@
+# Teaching page (/teaching/), from her CV. Groups in page order, entries newest first.
+# `title` and `text` may contain HTML; quote a value that contains ": ".
+# `upcoming: true` adds a small "upcoming" label: remove it once the course or talk has started.
+- group: Courses
+  items:
+    - date: Spring 2027
+      role: Teaching Assistant
+      title: ASEN 5010 Spacecraft Dynamics and Control
+      place: University of Colorado Boulder
+      text: Graduate course in the Ann and H.J. Smead Department of Aerospace Engineering Sciences on rigid-body kinematics, attitude dynamics and feedback control of spacecraft.
+      upcoming: true
+    - date: Spring 2027
+      role: Guest Lecturer
+      title: ASEN 5264 Decision Making under Uncertainty
+      place: University of Colorado Boulder
+      text: "Lectures in the graduate course on algorithms for sequential decision making under uncertainty: Markov decision processes, reinforcement learning and POMDPs."
+      upcoming: true
+
+- group: Seminars
+  items:
+    - date: November 2026
+      role: Seminar Speaker
+      title: Smead Aerospace Seminar
+      place: University of Colorado Boulder
+      text: <em>Enabling Autonomous and Safe Continuous Earth Observation through Transformer-Based Reinforcement Learning Architectures.</em> Department seminar for an audience ranging from first-year undergraduates to faculty.
+      upcoming: true
+
+- group: Tutoring
+  items:
+    - date: 2019–2021
+      role: Tutor
+      title: Mathematics and Physics
+      place: France
+      text: Tutored bachelor's students from disadvantaged backgrounds for two years, with personalized guidance outside the classroom. All tutored students improved their results and earned their degree.
