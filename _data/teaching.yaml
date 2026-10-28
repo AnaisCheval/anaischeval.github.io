@@ -1,6 +1,8 @@
 # Teaching page (/teaching/), from her CV. Groups in page order, entries newest first.
 # `title` and `text` may contain HTML; quote a value that contains ": ".
 # `upcoming: true` adds a small "upcoming" label: remove it once the course or talk has started.
+# `links` (optional): `name` and `url` of each link under the entry, e.g. a poster or slides. Put the files in
+# public/teaching/ (served at /teaching/<file>).
 - group: Courses
   items:
     - date: Spring 2027
@@ -18,12 +20,15 @@
 
 - group: Seminars
   items:
-    - date: November 2026
+    - date: Nov. 6, 2026
       role: Seminar Speaker
       title: Smead Aerospace Seminar
       place: University of Colorado Boulder
-      text: <em>Enabling Autonomous and Safe Continuous Earth Observation through Transformer-Based Reinforcement Learning Architectures.</em> Department seminar for an audience ranging from first-year undergraduates to faculty.
+      text: <em>Enabling Autonomous and Safe Earth Observation through Transformer-Based Reinforcement Learning Architectures.</em> Department seminar for an audience ranging from first-year undergraduates to faculty, Friday, November 6, 10:40 a.m., AERO 111.
       upcoming: true
+      links:
+        - name: poster (pdf)
+          url: /teaching/Cheval_2026_Smead_Aerospace_Seminar.pdf
 
 - group: Tutoring
   items:

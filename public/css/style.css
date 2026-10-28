@@ -469,6 +469,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
 .entry p { margin: 0 0 0.2rem; }
 .entry-date { font-family: var(--font-head); font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
 .entry-text { font-size: 0.925rem; }
+.entry .links { margin-top: 0.3rem; }
 @media (min-width: 640px) {
   .entry { grid-template-columns: 120px 1fr; }
   .entry-date { padding-top: 0.15rem; }

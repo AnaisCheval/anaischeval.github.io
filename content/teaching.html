@@ -17,6 +17,9 @@ description: Teaching, guest lectures, seminars and tutoring by Anaïs Pascale C
         {%- if item.text %}
         <p class="entry-text">{{ item.text }}</p>
         {%- endif %}
+        {%- if item.links %}
+        <p class="links">{% for link in item.links %}<a href="{{ link.url }}">{{ link.name }}</a>{% endfor %}</p>
+        {%- endif %}
       </div>
     </li>
     {%- endfor %}

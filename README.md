@@ -53,7 +53,7 @@ content/                    pages (the URL follows the folder)
 _data/
   site.json                 name, URL, description, email
   news.yaml                 homepage news
-  teaching.yaml             teaching page: courses, seminars, tutoring
+  teaching.yaml             teaching page: courses, seminars, tutoring (posters, slides: public/teaching/)
   publications.bib          all publications
   navigation.yaml           top menu
   socials.yaml              contact icons
