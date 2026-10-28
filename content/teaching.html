@@ -21,6 +21,14 @@ description: Teaching, guest lectures, seminars and tutoring by Anaïs Pascale C
         <p class="links">{% for link in item.links %}<a href="{{ link.url }}">{{ link.name }}</a>{% endfor %}</p>
         {%- endif %}
       </div>
+      {%- if item.image %}
+      {%- assign thumb_alt = "Poster: " | append: item.title %}
+      {%- if item.links %}
+      <a class="entry-thumb" href="{{ item.links[0].url }}"><img src="/{{ item.image }}" alt="{{ thumb_alt }}" eleventy:widths="160,320" sizes="120px"></a>
+      {%- else %}
+      <div class="entry-thumb"><img src="/{{ item.image }}" alt="{{ thumb_alt }}" eleventy:widths="160,320" sizes="120px"></div>
+      {%- endif %}
+      {%- endif %}
     </li>
     {%- endfor %}
   </ol>

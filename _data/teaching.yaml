@@ -3,6 +3,8 @@
 # `upcoming: true` adds a small "upcoming" label: remove it once the course or talk has started.
 # `links` (optional): `name` and `url` of each link under the entry, e.g. a poster or slides. Put the files in
 # public/teaching/ (served at /teaching/<file>).
+# `image` (optional): a picture of the poster or of the talk, in content/img/teaching/, shown as a small
+# thumbnail next to the entry; it opens the entry's first link (e.g. the poster PDF) if there is one.
 - group: Courses
   items:
     - date: Spring 2027
@@ -26,6 +28,7 @@
       place: University of Colorado Boulder
       text: <em>Enabling Autonomous and Safe Earth Observation through Transformer-Based Reinforcement Learning Architectures.</em> Department seminar for an audience ranging from first-year undergraduates to faculty, Friday, November 6, 10:40 a.m., AERO 111.
       upcoming: true
+      image: img/teaching/Cheval_2026_Smead_Aerospace_Seminar.jpg
       links:
         - name: poster (pdf)
           url: /teaching/Cheval_2026_Smead_Aerospace_Seminar.pdf

@@ -470,8 +470,14 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
 .entry-date { font-family: var(--font-head); font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
 .entry-text { font-size: 0.925rem; }
 .entry .links { margin-top: 0.3rem; }
+/* Optional thumbnail of a poster or talk (teaching.yaml `image`): under the text on phones, on the right from 640 px. */
+.entry-thumb { display: block; width: 120px; margin-top: 0.4rem; }
+.entry-thumb img { width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 4px; box-shadow: 3px 3px 0 var(--shadow); }
+.entry-thumb:hover img { border-color: var(--accent); }
 @media (min-width: 640px) {
   .entry { grid-template-columns: 120px 1fr; }
+  .entry:has(.entry-thumb) { grid-template-columns: 120px 1fr 120px; }
+  .entry-thumb { margin-top: 0.15rem; }
   .entry-date { padding-top: 0.15rem; }
 }
 
