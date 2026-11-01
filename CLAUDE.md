@@ -4,7 +4,7 @@ Guidance for AI assistants working in this repo.
 
 ## What this is
 
-A personal academic website (Anaïs Pascale Cheval, PhD student in the AVS Lab of Prof. Hanspeter Schaub, CU
+A personal academic website (Anaïs Pascale Cheval, PhD candidate in the AVS Lab of Prof. Hanspeter Schaub, CU
 Boulder; RL for autonomous Earth-observing satellites), adapted from andreumatoses.github.io and built
 with **Eleventy 3** (Liquid templates)
 and deployed to **GitHub Pages by GitHub Actions** (`.github/workflows/deploy.yml`: build → Playwright
